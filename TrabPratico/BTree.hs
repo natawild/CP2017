@@ -19,6 +19,8 @@ outBTree :: BTree a -> Either () (a,(BTree a,BTree a))
 outBTree Empty              = Left ()
 outBTree (Node (a,(t1,t2))) = Right(a,(t1,t2))
 
+
+
 -- (2) Ana + cata + hylo -------------------------------------------------------
 
 -- recBTree g = id -|- (id >< (g >< g))
