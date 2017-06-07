@@ -704,8 +704,7 @@ pap m k = unJust (lookup k m) where unJust (Just a) = a
 
 \section{Soluções propostas}\label{sec:resolucao}
 Os alunos devem colocar neste anexo as suas soluções aos exercícios
-propostos, de acordo com o ``layout'' que se fornece. Não podem ser
-alterados os nomes das funções dadas, mas pode ser adicionado texto e / ou outras funções auxiliares que sejam necessárias.
+propostos, de acordo com o ``layout'' que se fornece. Não podem ser alterados os nomes das funções dadas, mas pode ser adicionado texto e / ou outras funções auxiliares que sejam necessárias.
 
 \subsection*{Problema 1}
 
@@ -723,32 +722,67 @@ worker = undefined
 
 \subsection*{Problema 3}
 
-\begin{code}
-inB_tree = undefined
-outB_tree = undefined
+Para gerar o gráfico basta correr este comando: 
+dot -Tpng digraphG.dot -o diagrama.png
 
-recB_tree f = undefined
-baseB_tree g f = undefined
-cataB_tree g = undefined
-anaB_tree g = undefined
-hyloB_tree f g = undefined
+\begin{code}
+
+--data B_tree a = Nil | Block  { leftmost :: B_tree a, block :: [(a, B_tree a)] } deriving (Show,Eq)
+inB_tree :: Either () (B_tree a, [(a, B_tree a)]) -> (B_tree a)
+inB_tree = either (const Nil) joinB_trees
+
+joinB_trees :: (B_tree a, [(a, B_tree a)]) -> B_tree a
+joinB_trees (t1, ts) = Block { leftmost = t1, block = ts}
+
+outB_tree :: B_tree a -> Either () (B_tree a, [(a, B_tree a)])
+outB_tree Nil = i1 ()
+outB_tree (Block left block) = i2 (left, block) 
+
+recB_tree :: (b -> d) -> Either z (b, [(a, b)]) -> Either z (d, [(a, d)])
+recB_tree f = id -|- (f >< (map (id >< f)))
+
+baseB_tree :: (a1 -> b1) -> (a -> d) -> Either b (a, [(a1, a)]) -> Either b (d, [(b1, d)])
+baseB_tree g f = id -|- (f >< (map (g >< f)))
+
+cataB_tree :: (Either () (d, [(a, d)]) -> d) -> B_tree a -> d
+cataB_tree g = g . (recB_tree (cataB_tree g)) . outB_tree
+
+anaB_tree :: (b -> Either () (b, [(a, b)])) -> b -> B_tree a
+anaB_tree g = inB_tree . (recB_tree (anaB_tree g)) . g
+
+hyloB_tree :: (Either () (c, [(a, c)]) -> c) -> (b -> Either () (b, [(a, b)])) -> b -> c
+hyloB_tree f g = cataB_tree f . anaB_tree g
 
 instance Functor B_tree
-         where fmap f = undefined
+         where fmap f = cataB_tree ( inB_tree . baseB_tree f id)
 
-inordB_tree = undefined
+-- esq meio dir
+inordB_tree :: B_tree t -> [t]
+inordB_tree = cataB_tree (either (const []) join)
+  where join :: ([a], [(a, [a])]) -> [a]
+        join (xs, ys) = xs ++ concat (map (\(n, zs) -> (n:zs)) ys)
 
-largestBlock = undefined
 
-mirrorB_tree = undefined
+largestBlock :: B_tree t -> Int
+largestBlock = cataB_tree (either (const 0) size)
+  where size :: (Int, [(a, Int)]) -> Int
+        size (xs, ys) = max xs (length ys)
+
+
+mirrorB_tree :: B_tree a -> B_tree a
+mirrorB_tree = cataB_tree (inB_tree . (id -|- (id >< reverse)))
 
 lsplitB_tree = undefined
 
 qSortB_tree = undefined
 
-dotB_tree = undefined
+--dotB_tree :: Show a => B_tree a -> IO ExitCode
+--dotB_tree = dotpict . bmap nothing (Just . show) . cB_tree2Exp
 
-cB_tree2Exp = undefined
+cB_tree2Exp :: B_tree a -> Exp [Char] a
+cB_tree2Exp = cataB_tree (either (const (Var "nil")) connect)
+             where connect :: (Exp [Char] a, [(a, Exp [Char] a)]) -> Exp [Char] a 
+                   connect (a, b) = Term a (map (\(a, c) -> c) b)
 \end{code}
 
 \subsection*{Problema 4}

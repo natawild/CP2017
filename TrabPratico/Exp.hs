@@ -147,7 +147,7 @@ instance (Show a) => Expclass (BTree a) where
 
 cBTree2Exp :: BTree a -> Exp [Char] a
 cBTree2Exp = cataBTree (either (const (Var "nil")) h)
-             where h(a,(b,c)) = Term a [b,c] 
+             where h (a,(b,c)) = Term a [b, c]
 --------------------------------------------------------------------------------
 instance (Show a) => Expclass [a] where
     pict = expShow "_.html" .  cL2Exp . (fmap show)
