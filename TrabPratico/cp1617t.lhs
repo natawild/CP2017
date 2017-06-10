@@ -544,9 +544,9 @@ sorteio = anaLTree lsplit . envia . permuta
 reutilizando o anamorfismo do algoritmo de ``merge sort'', da biblioteca
 \LTree, para construir a árvore de jogos a partir de uma permutação aleatória
 das equipas gerada pela função genérica
-\begin{code}
+\begin{quote}
 permuta :: [a] -> IO [a]
-\end{code}
+\end{quote}
 A presença do mónade de |IO| tem a ver com a geração de números aleatórios\footnote{Quem
 estiver interessado em detalhes deverá consultar
 \href{https://hackage.haskell.org/package/random-1.1/docs/System-Random.html}{System.Random}.}.
@@ -727,7 +727,6 @@ dot -Tpng digraphG.dot -o diagrama.png
 
 \begin{code}
 
---data B_tree a = Nil | Block  { leftmost :: B_tree a, block :: [(a, B_tree a)] } deriving (Show,Eq)
 inB_tree :: Either () (B_tree a, [(a, B_tree a)]) -> (B_tree a)
 inB_tree = either (const Nil) joinB_trees
 
@@ -758,31 +757,54 @@ instance Functor B_tree
 
 -- esq meio dir
 inordB_tree :: B_tree t -> [t]
-inordB_tree = cataB_tree (either (const []) join)
-  where join :: ([a], [(a, [a])]) -> [a]
-        join (xs, ys) = xs ++ concat (map (\(n, zs) -> (n:zs)) ys)
+inordB_tree = cataB_tree ordgene
+    
+ordgene = either (const []) join
+    where join :: ([a], [(a, [a])]) -> [a]
+          join (xs, ys) = xs ++ concat (map (\(n, zs) -> (n:zs)) ys)
 
 
 largestBlock :: B_tree t -> Int
 largestBlock = cataB_tree (either (const 0) size)
   where size :: (Int, [(a, Int)]) -> Int
-        size (xs, ys) = max xs (length ys)
-
+        size (x, ys) = max x (length ys)
 
 mirrorB_tree :: B_tree a -> B_tree a
 mirrorB_tree = cataB_tree (inB_tree . (id -|- (id >< reverse)))
 
-lsplitB_tree = undefined
+{-
+qSortB_tree :: Ord a => [a] -> [a]
+qSortB_tree = hyloB_tree ordgene lsplitB_tree
 
-qSortB_tree = undefined
+lsplitB_tree :: [a] -> Either () ([a], [(a, [a])])
+lsplitB_tree []  = i1 ()
+lsplitB_tree [x] = i2 ([], (x, []))
+lsplitB_tree (x:xs) =  undefined
+-}
 
---dotB_tree :: Show a => B_tree a -> IO ExitCode
---dotB_tree = dotpict . bmap nothing (Just . show) . cB_tree2Exp
+{-
+qsep []    = Left ()
+qsep (h:t) = Right (h,(s,l)) where (s,l) = part (<h) t
 
-cB_tree2Exp :: B_tree a -> Exp [Char] a
+part:: (a -> Bool) -> [a] -> ([a], [a])
+part p []                = ([],[])
+part p (h:t) | p h       = let (s,l) = part p t in (h:s,l)
+             | otherwise = let (s,l) = part p t in (s,h:l)
+
+
+
+dotB_tree :: Show a => B_tree a -> IO ExitCode
+dotB_tree = dotpict . bmap nothing (Just . show) . cB_tree2Exp
+
+--data B_tree a = Nil | Block  { leftmost :: B_tree a, block :: [(a, B_tree a)] } deriving (Show,Eq)
+--data Exp v o = Var v              -- expressions are either variables
+ --            | Term o [ Exp v o ] -- or terms involving operators and
+
+cB_tree2Exp :: Show a => B_tree a -> Exp [Char] a
 cB_tree2Exp = cataB_tree (either (const (Var "nil")) connect)
              where connect :: (Exp [Char] a, [(a, Exp [Char] a)]) -> Exp [Char] a 
-                   connect (a, b) = Term a (map (\(a, c) -> c) b)
+                   connect (a, b) = Term [] (map _ b)
+--}
 \end{code}
 
 \subsection*{Problema 4}
@@ -802,9 +824,21 @@ showAlgae = undefined
 \subsection*{Problema 5}
 
 \begin{code}
-permuta = undefined
+permuta :: [a] -> IO [a]
+permuta [] = return []
+permuta input = do 
+                (x, xs) <- getR input
+                permuted <- permuta xs
+                return (x : permuted)
+                
 
-eliminatoria = undefined
+-- data LTree a = Leaf a 
+--              | Fork (LTree a, LTree a) 
+--              deriving (Show, Eq)
+
+eliminatoria :: LTree Equipa -> Dist Equipa
+eliminatoria (Fork (Leaf a) (Leaf b)) = jogo a b
+eliminatoria (Fork a b) = 
 \end{code}
 
 %----------------- Fim do anexo cpm soluções propostas ------------------------%
