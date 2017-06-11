@@ -445,13 +445,13 @@ Pretende-se, neste problema:
 \begin{enumerate}
 \item	A definição dos anamorfimos dos tipos |A| e |B|.
 \item	A definição da função
-\begin{code}
+\begin{quote}
 generateAlgae :: Int -> Algae
-\end{code}
+\end{quote}
 	como anamorfismo de |Algae| e da função
-\begin{code}
+\begin{quote}
 showAlgae :: Algae -> String
-\end{code}
+\end{quote}
 	como catamorfismo de |Algae|.
 \item	Use \QuickCheck\ para verificar a seguinte propriedade:
 \begin{quote}
@@ -559,9 +559,9 @@ estiver interessado em detalhes deverá consultar
 sorte e |t| é a lista sem esse elemento -- mas esse par vem encapsulado dentro de |IO|.
 
 \item A segunda parte do exercício consiste em definir a função monádica
-\begin{code}
+\begin{quote}
 eliminatoria :: LTree Equipa -> Dist Equipa
-\end{code}
+\end{quote}
 que, assumindo já disponível a função |jogo| acima referida, dá como resultado
 a distribuição de equipas vencedoras do campeonato.
 \end{enumerate}
@@ -709,15 +709,45 @@ propostos, de acordo com o ``layout'' que se fornece. Não podem ser alterados o
 \subsection*{Problema 1}
 
 \begin{code}
-inv x = undefined
+inv x n = snd $ for (invAccum x) (0, 0) n
+    where invAccum x (it, accum) = (it + 1, accum + (1 - x) ** it)
+
+-- prop_inv_correctness x = inv x n - (1 / x) < 0.1
+
 \end{code}
+
+A sua solução em C pode ser definida da seguinte forma:
+\begin{quote}
+\#include <math.h>
+
+float inv(float x, int n){
+    float accum = 0;
+    for(int i = 0; i < n; i++){
+        accum += pow(1 - x, i);
+    }
+    return accum;
+}
+\end{quote}
+
 
 \subsection*{Problema 2}
 \begin{code}
 wc_w_final :: [Char] -> Int
 wc_w_final = wrapper . worker
-wrapper = undefined
-worker = undefined
+
+wrapper :: [Int] -> Int
+wrapper = cataList (either (const 0) (uncurry (+)))
+
+worker :: [Char] -> [Int]
+worker []                      = []
+worker [c]
+    | not (sep c) = [1]
+    | otherwise   = [0]
+worker (c1:c2:cs)
+    | not (sep c1) && sep (c2) = 1 : worker (c2:cs)
+    | otherwise                = 0 : worker (c2:cs)
+
+sep c = ( c == ' ' || c == '\n' || c == '\t')
 \end{code}
 
 \subsection*{Problema 3}
@@ -810,15 +840,28 @@ cB_tree2Exp = cataB_tree (either (const (Var "nil")) connect)
 \subsection*{Problema 4}
 
 \begin{code}
-anaA = undefined
+anaA :: (a -> Either Null (a, b)) -> (b -> Either Null a) -> a -> A
+anaA ga gb = inA . (id -|- anaA ga gb >< anaB ga gb) . ga
 
-anaB = undefined
+anaB :: (a -> Either Null (a, b)) -> (b -> Either Null a) -> b -> B
+anaB ga gb = inB . (id -|- anaA ga gb) . gb
+
 \end{code}
 
-\begin{code}
-generateAlgae = undefined 
 
-showAlgae = undefined
+\begin{code}
+generateAlgae :: Int -> Algae
+generateAlgae = anaA _ _
+
+g :: b -> Either Null Int
+g = undefined
+
+
+showAlgae :: Algae -> String
+showAlgae = cataA (either empty as) (either empty bs)
+    where empty = const ""
+          as = (\(a, b) -> "A" ++ a ++ b)
+          bs = (\a -> a ++ "B")
 \end{code}
 
 \subsection*{Problema 5}
@@ -837,8 +880,7 @@ permuta input = do
 --              deriving (Show, Eq)
 
 eliminatoria :: LTree Equipa -> Dist Equipa
-eliminatoria (Fork (Leaf a) (Leaf b)) = jogo a b
-eliminatoria (Fork a b) = 
+eliminatoria = undefined
 \end{code}
 
 %----------------- Fim do anexo cpm soluções propostas ------------------------%
