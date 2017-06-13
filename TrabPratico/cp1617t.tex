@@ -1130,10 +1130,10 @@ propostos, de acordo com o ``layout'' que se fornece. Não podem ser alterados o
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
 \>[5]{}\mathbf{where}\;\Varid{invAccum}\;\Varid{x}\;(\Varid{it},\Varid{accum})\mathrel{=}(\Varid{it}\mathbin{+}\mathrm{1},\Varid{accum}\mathbin{+}(\mathrm{1}\mathbin{-}\Varid{x})\mathbin{**}\Varid{it}){}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\onelinecomment  prop_inv_correctness x = inv x n - (1 / x) < 0.1}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
+
+% prop_inv_correctness x = inv x n - (1 / x) < 0.1
 
 A sua solução em C pode ser definida da seguinte forma:
 \begin{tabbing}\tt
@@ -1150,15 +1150,11 @@ A sua solução em C pode ser definida da seguinte forma:
 
 
 \subsection*{Problema 2}
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{wc\char95 w\char95 final}\mathbin{::}[\mskip1.5mu \Conid{Char}\mskip1.5mu]\to \Conid{Int}{}\<[E]%
-\\
-\>[B]{}\Varid{wc\char95 w\char95 final}\mathrel{=}\Varid{wrapper}\comp \Varid{worker}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\commentbegin 
+
+
+
+
+{-
 
 wrapper :: [Int] -> Int
 wrapper = cataList (either (const 0) (uncurry (+)))
@@ -1169,7 +1165,17 @@ worker [c]
     \ensuremath{\neg \;(\Varid{sep}\;\Varid{c})\mathrel{=}[\mskip1.5mu \mathrm{1}\mskip1.5mu]} otherwise   = [0]
 worker (c1:c2:cs)
     \ensuremath{\neg \;(\Varid{sep}\;\Varid{c1})\mathrel{\wedge}\Varid{sep}\;(\Varid{c2})\mathrel{=}\mathrm{1}\mathbin{:}\Varid{worker}\;(\Varid{c2}\mathbin{:}\Varid{cs})} otherwise                = 0 : worker (c2:cs)
- \commentend}{}\<[E]%
+
+-}
+
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{wc\char95 w\char95 final}\mathbin{::}[\mskip1.5mu \Conid{Char}\mskip1.5mu]\to \Conid{Int}{}\<[E]%
+\\
+\>[B]{}\Varid{wc\char95 w\char95 final}\mathrel{=}\Varid{wrapper}\comp \Varid{worker}{}\<[E]%
 \\[\blanklineskip]%
 \>[B]{}\Varid{wrapper}\mathrel{=}\p2{}\<[E]%
 \\[\blanklineskip]%
@@ -1199,11 +1205,6 @@ dot -Tpng digraphG.dot -o diagrama.png
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{10}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{inB\char95 tree}\mathbin{::}()+(\mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{a},[\mskip1.5mu (\Varid{a},\mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{a})\mskip1.5mu])\to (\mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{a}){}\<[E]%
 \\
@@ -1212,21 +1213,49 @@ dot -Tpng digraphG.dot -o diagrama.png
 \>[B]{}\Varid{joinB\char95 trees}\mathbin{::}(\mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{a},[\mskip1.5mu (\Varid{a},\mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{a})\mskip1.5mu])\to \mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{a}{}\<[E]%
 \\
 \>[B]{}\Varid{joinB\char95 trees}\;(\Varid{t1},\Varid{ts})\mathrel{=}\Conid{Block}\;\{\mskip1.5mu \Varid{leftmost}\mathrel{=}\Varid{t1},\Varid{block}\mathrel{=}\Varid{ts}\mskip1.5mu\}{}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Uma versão alternativa seria: 
+
+\begin{tabbing}\tt
+~inB\char95{}tree~\char58{}\char58{}~Either~\char40{}\char41{}~\char40{}B\char95{}tree~a\char44{}~\char91{}\char40{}a\char44{}~B\char95{}tree~a\char41{}\char93{}\char41{}~\char45{}\char62{}~B\char95{}tree~a\\
+\tt ~inB\char95{}tree~\char61{}~either~\char40{}const~Nil\char41{}~\char40{}uncurry~Block\char41{}
+\end{tabbing}
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{outB\char95 tree}\mathbin{::}\mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{a}\to ()+(\mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{a},[\mskip1.5mu (\Varid{a},\mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{a})\mskip1.5mu]){}\<[E]%
 \\
 \>[B]{}\Varid{outB\char95 tree}\;\Conid{Nil}\mathrel{=}i_1\;(){}\<[E]%
 \\
 \>[B]{}\Varid{outB\char95 tree}\;(\Conid{Block}\;\Varid{left}\;\Varid{block})\mathrel{=}i_2\;(\Varid{left},\Varid{block}){}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{recB\char95 tree}\mathbin{::}(\Varid{b}\to \Varid{d})\to \Varid{z}+(\Varid{b},[\mskip1.5mu (\Varid{a},\Varid{b})\mskip1.5mu])\to \Varid{z}+(\Varid{d},[\mskip1.5mu (\Varid{a},\Varid{d})\mskip1.5mu]){}\<[E]%
 \\
 \>[B]{}\Varid{recB\char95 tree}\;\Varid{f}\mathrel{=}\Varid{id}+(\Varid{f}\times(\map \;(\Varid{id}\times\Varid{f}))){}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{baseB\char95 tree}\mathbin{::}(\Varid{a1}\to \Varid{b1})\to (\Varid{a}\to \Varid{d})\to \Varid{b}+(\Varid{a},[\mskip1.5mu (\Varid{a1},\Varid{a})\mskip1.5mu])\to \Varid{b}+(\Varid{d},[\mskip1.5mu (\Varid{b1},\Varid{d})\mskip1.5mu]){}\<[E]%
 \\
 \>[B]{}\Varid{baseB\char95 tree}\;\Varid{g}\;\Varid{f}\mathrel{=}\Varid{id}+(\Varid{f}\times(\map \;(\Varid{g}\times\Varid{f}))){}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{cataB\char95 tree}\mathbin{::}(()+(\Varid{d},[\mskip1.5mu (\Varid{a},\Varid{d})\mskip1.5mu])\to \Varid{d})\to \mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{a}\to \Varid{d}{}\<[E]%
 \\
 \>[B]{}\Varid{cataB\char95 tree}\;\Varid{g}\mathrel{=}\Varid{g}\comp (\Varid{recB\char95 tree}\;(\Varid{cataB\char95 tree}\;\Varid{g}))\comp \Varid{outB\char95 tree}{}\<[E]%
@@ -1238,12 +1267,26 @@ dot -Tpng digraphG.dot -o diagrama.png
 \>[B]{}\Varid{hyloB\char95 tree}\mathbin{::}(()+(\Varid{c},[\mskip1.5mu (\Varid{a},\Varid{c})\mskip1.5mu])\to \Varid{c})\to (\Varid{b}\to ()+(\Varid{b},[\mskip1.5mu (\Varid{a},\Varid{b})\mskip1.5mu]))\to \Varid{b}\to \Varid{c}{}\<[E]%
 \\
 \>[B]{}\Varid{hyloB\char95 tree}\;\Varid{f}\;\Varid{g}\mathrel{=}\Varid{cataB\char95 tree}\;\Varid{f}\comp \Varid{anaB\char95 tree}\;\Varid{g}{}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{10}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\mathbf{instance}\;\Conid{Functor}\;\mathsf{B}\mbox{-}\mathsf{tree} {}\<[E]%
 \\
 \>[B]{}\hsindent{10}{}\<[10]%
 \>[10]{}\mathbf{where}\;\mathsf{fmap}\;\Varid{f}\mathrel{=}\Varid{cataB\char95 tree}\;(\Varid{inB\char95 tree}\comp \Varid{baseB\char95 tree}\;\Varid{f}\;\Varid{id}){}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\mbox{\onelinecomment  esq meio dir}{}\<[E]%
 \\
 \>[B]{}\Varid{inordB\char95 tree}\mathbin{::}\mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{t}\to [\mskip1.5mu \Varid{t}\mskip1.5mu]{}\<[E]%
@@ -1257,7 +1300,15 @@ dot -Tpng digraphG.dot -o diagrama.png
 \\
 \>[5]{}\hsindent{6}{}\<[11]%
 \>[11]{}\Varid{join}\;(\Varid{xs},\Varid{ys})\mathrel{=}\Varid{xs}\plus \Varid{concat}\;(\map \;(\lambda (\Varid{n},\Varid{zs})\to (\Varid{n}\mathbin{:}\Varid{zs}))\;\Varid{ys}){}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{largestBlock}\mathbin{::}\mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{t}\to \Conid{Int}{}\<[E]%
 \\
 \>[B]{}\Varid{largestBlock}\mathrel{=}\Varid{cataB\char95 tree}\;\alt{\underline{\mathrm{0}}}{\Varid{size}}{}\<[E]%
@@ -1267,11 +1318,21 @@ dot -Tpng digraphG.dot -o diagrama.png
 \\
 \>[3]{}\hsindent{6}{}\<[9]%
 \>[9]{}\Varid{size}\;(\Varid{x},\Varid{ys})\mathrel{=}\Varid{max}\;\Varid{x}\;(\length \;\Varid{ys}){}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{mirrorB\char95 tree}\mathbin{::}\mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{a}\to \mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{a}{}\<[E]%
 \\
 \>[B]{}\Varid{mirrorB\char95 tree}\mathrel{=}\Varid{cataB\char95 tree}\;(\Varid{inB\char95 tree}\comp (\Varid{id}+(\Varid{id}\times\Varid{reverse}))){}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{dotB\char95 tree}\mathbin{::}\Conid{Show}\;\Varid{a}\Rightarrow \mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{a}\to \fun{IO}\;\Conid{ExitCode}{}\<[E]%
 \\
 \>[B]{}\Varid{dotB\char95 tree}\mathrel{=}\Varid{dotpict}\comp \Varid{bmap}\;\Varid{nothing}\;(\Conid{Just}\comp \Varid{show})\comp \Varid{cB\char95 tree2Exp}{}\<[E]%
@@ -1283,26 +1344,27 @@ dot -Tpng digraphG.dot -o diagrama.png
 \>[B]{}\Varid{connect}\mathbin{::}(\Conid{Exp}\;\Varid{v}\;[\mskip1.5mu \Varid{a}\mskip1.5mu],[\mskip1.5mu (\Varid{a},\Conid{Exp}\;\Varid{v}\;[\mskip1.5mu \Varid{a}\mskip1.5mu])\mskip1.5mu])\to \Conid{Exp}\;\Varid{v}\;[\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
 \\
 \>[B]{}\Varid{connect}\;(\Varid{x},\Varid{xs})\mathrel{=}\Conid{Term}\;(\map \;\p1\;\Varid{xs})\;(\Varid{x}\mathbin{:}(\map \;\p2\;\Varid{xs})){}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\mbox{\commentbegin 
-qSortB_tree :: Ord a => [a] -> [a]
-qSortB_tree = hyloB_tree ordgene lsplitB_tree
-
-lsplitB_tree :: [a] -> Either () ([a], [(a, [a])])
-lsplitB_tree []  = i1 ()
-lsplitB_tree [x] = i2 ([], (x, []))
-lsplitB_tree (x:xs) =  undefined
-
-qsep []    = Left ()
-qsep (h:t) = Right (h,(s,l)) where (s,l) = part (<h) t
-
-part:: (a -> Bool) -> [a] -> ([a], [a])
-part p []                = ([],[])
-part p (h:t) \ensuremath{\Varid{p}\;\Varid{h}\mathrel{=}\mathbf{let}\;(\Varid{s},\Varid{l})\mathrel{=}\Varid{part}\;\Varid{p}\;\Varid{t}\;\mathbf{in}\;(\Varid{h}\mathbin{:}\Varid{s},\Varid{l})} otherwise = let (s,l) = part p t in (s,h:l)
-
- \commentend}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
+
+
+\begin{tabbing}\tt
+~qSortB\char95{}tree~\char58{}\char58{}~Ord~a~\char61{}\char62{}~\char91{}a\char93{}~\char45{}\char62{}~\char91{}a\char93{}\\
+\tt ~qSortB\char95{}tree~\char61{}~hyloB\char95{}tree~ordgene~lsplitB\char95{}tree\\
+\tt ~\\
+\tt ~lsplitB\char95{}tree~\char58{}\char58{}~\char91{}a\char93{}~\char45{}\char62{}~Either~\char40{}\char41{}~\char40{}\char91{}a\char93{}\char44{}~\char91{}\char40{}a\char44{}~\char91{}a\char93{}\char41{}\char93{}\char41{}\\
+\tt ~lsplitB\char95{}tree~\char91{}\char93{}~~\char61{}~i1~\char40{}\char41{}\\
+\tt ~lsplitB\char95{}tree~\char91{}x\char93{}~\char61{}~i2~\char40{}\char91{}\char93{}\char44{}~\char40{}x\char44{}~\char91{}\char93{}\char41{}\char41{}\\
+\tt ~lsplitB\char95{}tree~\char40{}x\char58{}xs\char41{}~\char61{}~~undefined\\
+\tt ~\\
+\tt ~qsep~\char91{}\char93{}~~~~\char61{}~Left~\char40{}\char41{}\\
+\tt ~qsep~\char40{}h\char58{}t\char41{}~\char61{}~Right~\char40{}h\char44{}\char40{}s\char44{}l\char41{}\char41{}~where~\char40{}s\char44{}l\char41{}~\char61{}~part~\char40{}\char60{}h\char41{}~t\\
+\tt ~\\
+\tt ~part\char58{}\char58{}~\char40{}a~\char45{}\char62{}~Bool\char41{}~\char45{}\char62{}~\char91{}a\char93{}~\char45{}\char62{}~\char40{}\char91{}a\char93{}\char44{}~\char91{}a\char93{}\char41{}\\
+\tt ~part~p~\char91{}\char93{}~~~~~~~~~~~~~~~~\char61{}~\char40{}\char91{}\char93{}\char44{}\char91{}\char93{}\char41{}\\
+\tt ~part~p~\char40{}h\char58{}t\char41{}~\char124{}~p~h~~~~~~~\char61{}~let~\char40{}s\char44{}l\char41{}~\char61{}~part~p~t~in~\char40{}h\char58{}s\char44{}l\char41{}\\
+\tt ~~~~~~~~~~~~~~\char124{}~otherwise~\char61{}~let~\char40{}s\char44{}l\char41{}~\char61{}~part~p~t~in~\char40{}s\char44{}h\char58{}l\char41{}
+\end{tabbing}
 
 \subsection*{Problema 4}
 
@@ -1357,11 +1419,7 @@ part p (h:t) \ensuremath{\Varid{p}\;\Varid{h}\mathrel{=}\mathbf{let}\;(\Varid{s}
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{17}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{21}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{33}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{permuta}\mathbin{::}[\mskip1.5mu \Varid{a}\mskip1.5mu]\to \fun{IO}\;[\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
 \\
@@ -1377,7 +1435,16 @@ part p (h:t) \ensuremath{\Varid{p}\;\Varid{h}\mathrel{=}\mathbf{let}\;(\Varid{s}
 \\
 \>[B]{}\hsindent{17}{}\<[17]%
 \>[17]{}\Varid{return}\;(\Varid{x}\mathbin{:}\Varid{permuted}){}\<[E]%
-\\[\blanklineskip]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{21}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{33}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{eliminatoria}\mathbin{::}\mathsf{LTree}\;\Conid{Equipa}\to \fun{Dist}\;\Conid{Equipa}{}\<[E]%
 \\
 \>[B]{}\Varid{eliminatoria}\mathrel{=}\Varid{cataLTree}\;\Varid{g}{}\<[E]%

@@ -712,9 +712,9 @@ propostos, de acordo com o ``layout'' que se fornece. Não podem ser alterados o
 inv x n = snd $ for (invAccum x) (0, 0) n
     where invAccum x (it, accum) = (it + 1, accum + (1 - x) ** it)
 
--- prop_inv_correctness x = inv x n - (1 / x) < 0.1
-
 \end{code}
+
+% prop_inv_correctness x = inv x n - (1 / x) < 0.1
 
 A sua solução em C pode ser definida da seguinte forma:
 \begin{verbatim}
@@ -731,9 +731,9 @@ float inv(float x, int n){
 
 
 \subsection*{Problema 2}
-\begin{code}
-wc_w_final :: [Char] -> Int
-wc_w_final = wrapper . worker
+
+
+
 
 {-
 
@@ -750,6 +750,12 @@ worker (c1:c2:cs)
     | otherwise                = 0 : worker (c2:cs)
 
 -}
+
+
+\begin{code}
+wc_w_final :: [Char] -> Int
+wc_w_final = wrapper . worker
+
 
 wrapper = snd
 
@@ -776,16 +782,33 @@ inB_tree = either (const Nil) joinB_trees
 joinB_trees :: (B_tree a, [(a, B_tree a)]) -> B_tree a
 joinB_trees (t1, ts) = Block { leftmost = t1, block = ts}
 
+\end{code}
+
+Uma versão alternativa seria: 
+
+\begin{verbatim}
+inB_tree :: Either () (B_tree a, [(a, B_tree a)]) -> B_tree a
+inB_tree = either (const Nil) (uncurry Block)
+\end{verbatim}
+
+\begin{code}
 outB_tree :: B_tree a -> Either () (B_tree a, [(a, B_tree a)])
 outB_tree Nil = i1 ()
 outB_tree (Block left block) = i2 (left, block) 
+\end{code}
 
+
+\begin{code}
 recB_tree :: (b -> d) -> Either z (b, [(a, b)]) -> Either z (d, [(a, d)])
 recB_tree f = id -|- (f >< (map (id >< f)))
+\end{code}
 
+\begin{code}
 baseB_tree :: (a1 -> b1) -> (a -> d) -> Either b (a, [(a1, a)]) -> Either b (d, [(b1, d)])
 baseB_tree g f = id -|- (f >< (map (g >< f)))
+\end{code}
 
+\begin{code}
 cataB_tree :: (Either () (d, [(a, d)]) -> d) -> B_tree a -> d
 cataB_tree g = g . (recB_tree (cataB_tree g)) . outB_tree
 
@@ -794,9 +817,17 @@ anaB_tree g = inB_tree . (recB_tree (anaB_tree g)) . g
 
 hyloB_tree :: (Either () (c, [(a, c)]) -> c) -> (b -> Either () (b, [(a, b)])) -> b -> c
 hyloB_tree f g = cataB_tree f . anaB_tree g
+\end{code}
+
+
+\begin{code}
 
 instance Functor B_tree
          where fmap f = cataB_tree ( inB_tree . baseB_tree f id)
+
+\end{code}
+
+\begin{code}
 
 -- esq meio dir
 inordB_tree :: B_tree t -> [t]
@@ -806,16 +837,22 @@ ordgene = either (const []) join
     where join :: ([a], [(a, [a])]) -> [a]
           join (xs, ys) = xs ++ concat (map (\(n, zs) -> (n:zs)) ys)
 
+\end{code}
 
+
+\begin{code}
 largestBlock :: B_tree t -> Int
 largestBlock = cataB_tree (either (const 0) size)
   where size :: (Int, [(a, Int)]) -> Int
         size (x, ys) = max x (length ys)
+\end{code}
 
+\begin{code}
 mirrorB_tree :: B_tree a -> B_tree a
 mirrorB_tree = cataB_tree (inB_tree . (id -|- (id >< reverse)))
+\end{code}
 
-
+\begin{code}
 dotB_tree :: Show a => B_tree a -> IO ExitCode
 dotB_tree = dotpict . bmap nothing (Just . show) . cB_tree2Exp
 
@@ -824,9 +861,10 @@ cB_tree2Exp = cataB_tree (either (const (Var "nil")) connect)
 
 connect :: (Exp v [a], [(a, Exp v [a])]) -> Exp v [a]
 connect (x, xs) = Term (map fst xs) (x : (map snd xs))
+\end{code}
 
 
-{-
+\begin{verbatim}
 qSortB_tree :: Ord a => [a] -> [a]
 qSortB_tree = hyloB_tree ordgene lsplitB_tree
 
@@ -844,9 +882,7 @@ part p (h:t) | p h       = let (s,l) = part p t in (h:s,l)
              | otherwise = let (s,l) = part p t in (s,h:l)
 
 
--}
-
-\end{code}
+\end{verbatim}
 
 \subsection*{Problema 4}
 
@@ -884,8 +920,9 @@ permuta input = do
                 (x, xs) <- getR input
                 permuted <- permuta xs
                 return (x : permuted)
+\end{code}
 
-
+\begin{code}
 eliminatoria :: LTree Equipa -> Dist Equipa
 eliminatoria = cataLTree g
     where g :: Either Equipa (Dist Equipa, Dist Equipa) -> Dist Equipa
