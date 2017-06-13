@@ -712,6 +712,15 @@ propostos, de acordo com o ``layout'' que se fornece. Não podem ser alterados o
 inv x n = snd $ for (invAccum x) (0, 0) n
     where invAccum x (it, accum) = (it + 1, accum + (1 - x) ** it)
 
+
+val1 :: Gen Double
+val1 = Test.QuickCheck.suchThat arbitrary (\i -> i > 1 && i < 2)
+
+prop_inv (Positive n) = forAll val1 $ \x ->
+                                          let apro = inv x (n+1)
+                                              real = 1/x
+                                          in  abs(real - apro)  < 0.1
+
 \end{code}
 
 % prop_inv_correctness x = inv x n - (1 / x) < 0.1
@@ -728,6 +737,8 @@ float inv(float x, int n){
     return accum;
 }
 \end{verbatim}
+
+
 
 
 \subsection*{Problema 2}
