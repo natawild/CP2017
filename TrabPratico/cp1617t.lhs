@@ -735,6 +735,8 @@ float inv(float x, int n){
 wc_w_final :: [Char] -> Int
 wc_w_final = wrapper . worker
 
+{-
+
 wrapper :: [Int] -> Int
 wrapper = cataList (either (const 0) (uncurry (+)))
 
@@ -747,7 +749,18 @@ worker (c1:c2:cs)
     | not (sep c1) && sep (c2) = 1 : worker (c2:cs)
     | otherwise                = 0 : worker (c2:cs)
 
-sep c = ( c == ' ' || c == '\n' || c == '\t')
+-}
+
+wrapper = snd
+
+worker :: [Char] -> (Bool, Int)
+worker = cataList (either (const (True, 0)) wordAccum)
+
+wordAccum :: (Char, (Bool, Int)) -> (Bool, Int)
+wordAccum (a, (b, n))
+    | b && (not . sep) a = (sep a, succ n)
+    | otherwise = (sep a, n)
+    where sep c = c `elem` "\t\n "
 \end{code}
 
 \subsection*{Problema 3}
@@ -802,6 +815,17 @@ largestBlock = cataB_tree (either (const 0) size)
 mirrorB_tree :: B_tree a -> B_tree a
 mirrorB_tree = cataB_tree (inB_tree . (id -|- (id >< reverse)))
 
+
+dotB_tree :: Show a => B_tree a -> IO ExitCode
+dotB_tree = dotpict . bmap nothing (Just . show) . cB_tree2Exp
+
+cB_tree2Exp :: B_tree a -> Exp [Char] [a]
+cB_tree2Exp = cataB_tree (either (const (Var "nil")) connect)
+
+connect :: (Exp v [a], [(a, Exp v [a])]) -> Exp v [a]
+connect (x, xs) = Term (map fst xs) (x : (map snd xs))
+
+
 {-
 qSortB_tree :: Ord a => [a] -> [a]
 qSortB_tree = hyloB_tree ordgene lsplitB_tree
@@ -810,9 +834,7 @@ lsplitB_tree :: [a] -> Either () ([a], [(a, [a])])
 lsplitB_tree []  = i1 ()
 lsplitB_tree [x] = i2 ([], (x, []))
 lsplitB_tree (x:xs) =  undefined
--}
 
-{-
 qsep []    = Left ()
 qsep (h:t) = Right (h,(s,l)) where (s,l) = part (<h) t
 
@@ -822,19 +844,8 @@ part p (h:t) | p h       = let (s,l) = part p t in (h:s,l)
              | otherwise = let (s,l) = part p t in (s,h:l)
 
 
+-}
 
-dotB_tree :: Show a => B_tree a -> IO ExitCode
-dotB_tree = dotpict . bmap nothing (Just . show) . cB_tree2Exp
-
---data B_tree a = Nil | Block  { leftmost :: B_tree a, block :: [(a, B_tree a)] } deriving (Show,Eq)
---data Exp v o = Var v              -- expressions are either variables
- --            | Term o [ Exp v o ] -- or terms involving operators and
-
-cB_tree2Exp :: Show a => B_tree a -> Exp [Char] a
-cB_tree2Exp = cataB_tree (either (const (Var "nil")) connect)
-             where connect :: (Exp [Char] a, [(a, Exp [Char] a)]) -> Exp [Char] a 
-                   connect (a, b) = Term [] (map _ b)
---}
 \end{code}
 
 \subsection*{Problema 4}
@@ -851,17 +862,17 @@ anaB ga gb = inB . (id -|- anaA ga gb) . gb
 
 \begin{code}
 generateAlgae :: Int -> Algae
-generateAlgae = anaA _ _
-
-g :: b -> Either Null Int
-g = undefined
-
+generateAlgae = (anaA ga gb) . succ
+    where ga 0 = i1 ()
+          ga n = i2 (pred n, pred n)
+          gb 0 = i1 ()
+          gb n = i2 (pred n)
 
 showAlgae :: Algae -> String
-showAlgae = cataA (either empty as) (either empty bs)
-    where empty = const ""
-          as = (\(a, b) -> "A" ++ a ++ b)
-          bs = (\a -> a ++ "B")
+showAlgae = cataA ga gb
+    where ga = either (const "A") (uncurry (++))
+          gb = either (const "B") id
+
 \end{code}
 
 \subsection*{Problema 5}
@@ -873,14 +884,18 @@ permuta input = do
                 (x, xs) <- getR input
                 permuted <- permuta xs
                 return (x : permuted)
-                
 
--- data LTree a = Leaf a 
---              | Fork (LTree a, LTree a) 
---              deriving (Show, Eq)
 
 eliminatoria :: LTree Equipa -> Dist Equipa
-eliminatoria = undefined
+eliminatoria = cataLTree g
+    where g :: Either Equipa (Dist Equipa, Dist Equipa) -> Dist Equipa
+          g = either return distJogo
+          distJogo  :: (Dist Equipa, Dist Equipa) -> Dist Equipa
+          distJogo (de1, de2) = do
+                                e1 <- de1
+                                e2 <- de2
+                                jogo (e1, e2)  
+
 \end{code}
 
 %----------------- Fim do anexo cpm soluções propostas ------------------------%
