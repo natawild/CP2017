@@ -289,7 +289,7 @@ wc_w (c:l) =
      then wc_w l + 1
      else wc_w l
        where
-          sep c = ( c == ' ' || c == '\n' || c == '\t')
+          sep c = c `elem` " \r\n\t\v\f\160"
           lookahead_sep []    = True
           lookahead_sep (c:l) = sep c
 \end{code}
@@ -778,8 +778,12 @@ wordAccum (a, (b, n))
 sep :: Char -> Bool
 sep c = c `elem` " \r\n\t\v\f\160"
 
-prop_wc_w_correctness :: String -> Bool
-prop_wc_w_correctness str = length (words str) == wc_w_final str
+
+prop_wc_w_correctness1 :: String -> Bool
+prop_wc_w_correctness1 str = length (words str) == wc_w_final str
+
+prop_wc_w_correctness2 :: String -> Bool
+prop_wc_w_correctness2 str = wc_w str == wc_w_final str
 
 prop_worker_first :: String -> Bool
 prop_worker_first [] = True
