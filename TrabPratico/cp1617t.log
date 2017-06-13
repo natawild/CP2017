@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.9)  13 JUN 2017 17:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.9)  13 JUN 2017 19:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -971,7 +971,13 @@ Overfull \hbox (1.64172pt too wide) in paragraph at lines 1120--1122
 
 \openout5 = `cp1617t.ptb'.
 
+\openout5 = `cp1617t.ptb'.
+
 [11]
+\openout5 = `cp1617t.ptb'.
+
+\openout5 = `cp1617t.ptb'.
+
 \openout5 = `cp1617t.ptb'.
 
  [12]
@@ -1000,30 +1006,56 @@ Overfull \hbox (1.64172pt too wide) in paragraph at lines 1120--1122
 
 \openout5 = `cp1617t.ptb'.
 
- [14]
+
+Overfull \hbox (499.11638pt too wide) in paragraph at lines 1472--1477
+ [][] 
+ []
+
+<diagrama.png, id=216, 1046.91125pt x 253.94875pt>
+File: diagrama.png Graphic file (type png)
+ <use diagrama.png>
+Package pdftex.def Info: diagrama.png used on input line 1491.
+(pdftex.def)             Requested size: 318.66948pt x 77.29732pt.
+\openout5 = `cp1617t.ptb'.
+
+ [14 <./diagrama.png>]
 \openout5 = `cp1617t.ptb'.
 
 \openout5 = `cp1617t.ptb'.
 
- (./cp1617t.ind [15] [16
+
+Overfull \hbox (148.95242pt too wide) in paragraph at lines 1555--1562
+ [][] 
+ []
+
+
+Overfull \hbox (148.95242pt too wide) in paragraph at lines 1555--1562
+ [][] 
+ []
+
+\openout5 = `cp1617t.ptb'.
+
+\openout5 = `cp1617t.ptb'.
+
+(./cp1617t.ind [15] [16
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1575.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1575.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1648.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1648.
  (./cp1617t.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1575.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1575.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1648.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1648.
 
 Package rerunfilecheck Info: File `cp1617t.out' has not changed.
 (rerunfilecheck)             Checksum: 5DC94B7046BAC0227E6F46C9CCE6DE02;364.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1575.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1648.
  ) 
 Here is how much of TeX's memory you used:
- 10747 strings out of 493014
- 147365 string characters out of 6133352
- 303504 words of memory out of 5000000
- 13969 multiletter control sequences out of 15000+600000
+ 10738 strings out of 493014
+ 147232 string characters out of 6133352
+ 305504 words of memory out of 5000000
+ 13958 multiletter control sequences out of 15000+600000
  40916 words of font info for 124 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  32i,16n,43p,3280b,495s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1050,10 +1082,10 @@ palatino/uplb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/palatin
 o/uplr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/palatino/uplr8
 a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
 
-Output written on cp1617t.pdf (16 pages, 437422 bytes).
+Output written on cp1617t.pdf (16 pages, 455321 bytes).
 PDF statistics:
- 363 PDF objects out of 1000 (max. 8388607)
- 315 compressed objects within 4 object streams
+ 366 PDF objects out of 1000 (max. 8388607)
+ 316 compressed objects within 4 object streams
  62 named destinations out of 1000 (max. 500000)
- 69 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 74 words of extra memory for PDF output out of 10000 (max. 10000000)
 

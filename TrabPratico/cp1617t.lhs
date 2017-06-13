@@ -716,18 +716,20 @@ inv x n = snd $ for (invAccum x) (0, 0) n
     where invAccum :: Double -> (Double, Double) -> (Double, Double)
           invAccum x (it, accum) = (it + 1, accum + (1 - x) ** it)
 
+\end{code}
+
+
+\begin{code}
 prop_inv_correctness :: NonNegative Int -> Property
 prop_inv_correctness (NonNegative n) = forAll (choose(1, 1.999)) $ \x -> diff n x > tolerance
     where diff :: Int -> Double -> Double
           diff n x = abs $ x - (inv x n)
           tolerance = 0.0001
-
 \end{code}
+
 
 A sua solução em C pode ser definida da seguinte forma:
 \begin{verbatim}
-\#include <math.h>
-
 float inv(float x, int n){
     float accum = 0;
     for(int i = 0; i < n; i++){
@@ -739,31 +741,14 @@ float inv(float x, int n){
 
 
 
-
 \subsection*{Problema 2}
-
-\begin{verbatim}
-
-wrapper :: [Int] -> Int
-wrapper = cataList (either (const 0) (uncurry (+)))
-
-worker :: [Char] -> [Int]
-worker []                      = []
-worker [c]
-    | not (sep c) = [1]
-    | otherwise   = [0]
-worker (c1:c2:cs)
-    | not (sep c1) && sep (c2) = 1 : worker (c2:cs)
-    | otherwise                = 0 : worker (c2:cs)
-
-\end{verbatim}
-
 
 \begin{code}
 wc_w_final :: [Char] -> Int
 wc_w_final = wrapper . worker
+\end{code}
 
-
+\begin{code}
 wrapper :: (Prod a b) -> b
 wrapper = snd
 
@@ -778,7 +763,9 @@ wordAccum (a, (b, n))
 sep :: Char -> Bool
 sep c = c `elem` " \r\n\t\v\f\160"
 
+\end{code}
 
+\begin{code}
 prop_wc_w_correctness1 :: String -> Bool
 prop_wc_w_correctness1 str = length (words str) == wc_w_final str
 
@@ -953,8 +940,28 @@ lsplitB_tree (x:xs) = i2 (l1, [(x, l2)])
 
 partB_tree :: (a -> Bool) -> [a] -> ([a], [a])
 partB_tree = partition
-
 \end{code}
+
+Mostramos de seguida como proceder à definição da árvore: 
+
+\begin{code}
+t = Block { leftmost = Block { leftmost = Nil, block = [ (1,Nil),(2,Nil),(5,Nil),(6,Nil)]}, block = [ (7,Block { leftmost = Nil, block = [(9,Nil),(12,Nil)]}), (16,Block { leftmost = Nil, block = [(18,Nil),(21,Nil)]}) ]}
+\end{code}
+
+Seguido do comando para a geração do ficheiro .dot: 
+\begin{quote}
+dotB\_tree t 
+\end{quote}
+
+Para a obtenção da imagem é necessário correr o seguinte comando: 
+\begin{quote}
+dot -Tpng digraphG.dot -o diagrama.png
+\end{quote}
+
+
+\begin{center}
+       \includegraphics[width=0.7\textwidth]{diagrama.png}
+\end{center}
 
 \subsection*{Problema 4}
 
@@ -984,10 +991,11 @@ showAlgae = cataA ga gb
           ga = either (const "A") (uncurry (++))
           gb :: Either a String -> String
           gb = either (const "B") id
+\end{code}
 
+\begin{code}
 prop_algae :: Property
 prop_algae = forAll (elements [0..25]) $ \n -> (length . showAlgae . generateAlgae) n == (fromIntegral ((fib . succ) (fromIntegral n)))
-
 \end{code}
 
 \subsection*{Problema 5}

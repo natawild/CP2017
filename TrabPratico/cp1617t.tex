@@ -399,7 +399,7 @@ fonte, se ter inserido o seguinte código \Haskell:
 \\
 \>[B]{}\mathbf{import}\;\Conid{St}{}\<[E]%
 \\
-\>[B]{}\mathbf{import}\;\Conid{Probability}\;\Varid{hiding}\;(\Varid{cond}){}\<[E]%
+\>[B]{}\mathbf{import}\;\Conid{Probability}\;\Varid{hiding}\;(\Varid{cond},\Varid{choose}){}\<[E]%
 \\
 \>[B]{}\mathbf{import}\;\Conid{\Conid{Data}.List}{}\<[E]%
 \\
@@ -535,7 +535,7 @@ verificamos que a poderíamos escrever, em Haskell, da forma seguinte:
 \>[8]{}\mathbf{where}{}\<[E]%
 \\
 \>[8]{}\hsindent{3}{}\<[11]%
-\>[11]{}\Varid{sep}\;\Varid{c}\mathrel{=}(\Varid{c}\equiv \text{\tt '~'}\mathrel{\vee}\Varid{c}\equiv \text{\tt '\char92 n'}\mathrel{\vee}\Varid{c}\equiv \text{\tt '\char92 t'}){}\<[E]%
+\>[11]{}\Varid{sep}\;\Varid{c}\mathrel{=}\Varid{c}\in \text{\tt \char34 ~\char92 r\char92 n\char92 t\char92 v\char92 f\char92 160\char34}{}\<[E]%
 \\
 \>[8]{}\hsindent{3}{}\<[11]%
 \>[11]{}\Varid{lookahead\char95 sep}\;[\mskip1.5mu \mskip1.5mu]{}\<[31]%
@@ -1125,41 +1125,45 @@ propostos, de acordo com o ``layout'' que se fornece. Não podem ser alterados o
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{43}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{47}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{65}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{inv}\mathbin{::}\Conid{Double}\to \Conid{Int}\to \Conid{Double}{}\<[E]%
+\\
 \>[B]{}\Varid{inv}\;\Varid{x}\;\Varid{n}\mathrel{=}\p2\mathbin{\$}\mathsf{for}\ (\Varid{invAccum}\;\Varid{x})\ (\mathrm{0},\mathrm{0})\;\Varid{n}{}\<[E]%
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
-\>[5]{}\mathbf{where}\;\Varid{invAccum}\;\Varid{x}\;(\Varid{it},\Varid{accum})\mathrel{=}(\Varid{it}\mathbin{+}\mathrm{1},\Varid{accum}\mathbin{+}(\mathrm{1}\mathbin{-}\Varid{x})\mathbin{**}\Varid{it}){}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\Varid{val1}\mathbin{::}\Conid{Gen}\;\Conid{Double}{}\<[E]%
+\>[5]{}\mathbf{where}\;\Varid{invAccum}\mathbin{::}\Conid{Double}\to (\Conid{Double},\Conid{Double})\to (\Conid{Double},\Conid{Double}){}\<[E]%
 \\
-\>[B]{}\Varid{val1}\mathrel{=}\Varid{\Conid{Test}.\Conid{QuickCheck}.suchThat}\;\Varid{arbitrary}\;(\lambda \Varid{i}\to \Varid{i}\mathbin{>}\mathrm{1}\mathrel{\wedge}\Varid{i}\mathbin{<}\mathrm{2}){}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\Varid{prop\char95 inv}\;(\Conid{Positive}\;\Varid{n})\mathrel{=}\Varid{forAll}\;\Varid{val1}\mathbin{\$}\lambda \Varid{x}\to {}\<[E]%
-\\
-\>[B]{}\hsindent{43}{}\<[43]%
-\>[43]{}\mathbf{let}\;\Varid{apro}\mathrel{=}\Varid{inv}\;\Varid{x}\;(\Varid{n}\mathbin{+}\mathrm{1}){}\<[E]%
-\\
-\>[43]{}\hsindent{4}{}\<[47]%
-\>[47]{}\Varid{real}\mathrel{=}\mathrm{1}\mathbin{/}\Varid{x}{}\<[E]%
-\\
-\>[B]{}\hsindent{43}{}\<[43]%
-\>[43]{}\mathbf{in}\;{}\<[47]%
-\>[47]{}\Varid{abs}\;(\Varid{real}\mathbin{-}\Varid{apro}){}\<[65]%
-\>[65]{}\mathbin{<}\mathrm{0.1}{}\<[E]%
+\>[5]{}\hsindent{6}{}\<[11]%
+\>[11]{}\Varid{invAccum}\;\Varid{x}\;(\Varid{it},\Varid{accum})\mathrel{=}(\Varid{it}\mathbin{+}\mathrm{1},\Varid{accum}\mathbin{+}(\mathrm{1}\mathbin{-}\Varid{x})\mathbin{**}\Varid{it}){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
-% prop_inv_correctness x = inv x n - (1 / x) < 0.1
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{prop\char95 inv\char95 correctness}\mathbin{::}\Conid{NonNegative}\;\Conid{Int}\to \Conid{Property}{}\<[E]%
+\\
+\>[B]{}\Varid{prop\char95 inv\char95 correctness}\;(\Conid{NonNegative}\;\Varid{n})\mathrel{=}\Varid{forAll}\;(\Varid{choose}\;(\mathrm{1},\mathrm{1.999}))\mathbin{\$}\lambda \Varid{x}\to \Varid{diff}\;\Varid{n}\;\Varid{x}\mathbin{>}\Varid{tolerance}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mathbf{where}\;\Varid{diff}\mathbin{::}\Conid{Int}\to \Conid{Double}\to \Conid{Double}{}\<[E]%
+\\
+\>[5]{}\hsindent{6}{}\<[11]%
+\>[11]{}\Varid{diff}\;\Varid{n}\;\Varid{x}\mathrel{=}\Varid{abs}\mathbin{\$}\Varid{x}\mathbin{-}(\Varid{inv}\;\Varid{x}\;\Varid{n}){}\<[E]%
+\\
+\>[5]{}\hsindent{6}{}\<[11]%
+\>[11]{}\Varid{tolerance}\mathrel{=}\mathrm{0.0001}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
 
 A sua solução em C pode ser definida da seguinte forma:
 \begin{tabbing}\tt
-~\char92{}\char35{}include~\char60{}math\char46{}h\char62{}\\
-\tt ~\\
-\tt ~float~inv\char40{}float~x\char44{}~int~n\char41{}\char123{}\\
+~float~inv\char40{}float~x\char44{}~int~n\char41{}\char123{}\\
 \tt ~~~~~float~accum~\char61{}~0\char59{}\\
 \tt ~~~~~for\char40{}int~i~\char61{}~0\char59{}~i~\char60{}~n\char59{}~i\char43{}\char43{}\char41{}\char123{}\\
 \tt ~~~~~~~~~accum~\char43{}\char61{}~pow\char40{}1~\char45{}~x\char44{}~i\char41{}\char59{}\\
@@ -1170,32 +1174,23 @@ A sua solução em C pode ser definida da seguinte forma:
 
 
 
-
 \subsection*{Problema 2}
 
-\begin{tabbing}\tt
-~wrapper~\char58{}\char58{}~\char91{}Int\char93{}~\char45{}\char62{}~Int\\
-\tt ~wrapper~\char61{}~cataList~\char40{}either~\char40{}const~0\char41{}~\char40{}uncurry~\char40{}\char43{}\char41{}\char41{}\char41{}\\
-\tt ~\\
-\tt ~worker~\char58{}\char58{}~\char91{}Char\char93{}~\char45{}\char62{}~\char91{}Int\char93{}\\
-\tt ~worker~\char91{}\char93{}~~~~~~~~~~~~~~~~~~~~~~\char61{}~\char91{}\char93{}\\
-\tt ~worker~\char91{}c\char93{}\\
-\tt ~~~~~\char124{}~not~\char40{}sep~c\char41{}~\char61{}~\char91{}1\char93{}\\
-\tt ~~~~~\char124{}~otherwise~~~\char61{}~\char91{}0\char93{}\\
-\tt ~worker~\char40{}c1\char58{}c2\char58{}cs\char41{}\\
-\tt ~~~~~\char124{}~not~\char40{}sep~c1\char41{}~\char38{}\char38{}~sep~\char40{}c2\char41{}~\char61{}~1~\char58{}~worker~\char40{}c2\char58{}cs\char41{}\\
-\tt ~~~~~\char124{}~otherwise~~~~~~~~~~~~~~~~\char61{}~0~\char58{}~worker~\char40{}c2\char58{}cs\char41{}
-\end{tabbing}
-
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{wc\char95 w\char95 final}\mathbin{::}[\mskip1.5mu \Conid{Char}\mskip1.5mu]\to \Conid{Int}{}\<[E]%
+\\
+\>[B]{}\Varid{wc\char95 w\char95 final}\mathrel{=}\Varid{wrapper}\comp \Varid{worker}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{wc\char95 w\char95 final}\mathbin{::}[\mskip1.5mu \Conid{Char}\mskip1.5mu]\to \Conid{Int}{}\<[E]%
+\>[B]{}\Varid{wrapper}\mathbin{::}\Varid{a}\times\Varid{b}\to \Varid{b}{}\<[E]%
 \\
-\>[B]{}\Varid{wc\char95 w\char95 final}\mathrel{=}\Varid{wrapper}\comp \Varid{worker}{}\<[E]%
-\\[\blanklineskip]%
 \>[B]{}\Varid{wrapper}\mathrel{=}\p2{}\<[E]%
 \\[\blanklineskip]%
 \>[B]{}\Varid{worker}\mathbin{::}[\mskip1.5mu \Conid{Char}\mskip1.5mu]\to (\Conid{Bool},\Conid{Int}){}\<[E]%
@@ -1211,9 +1206,29 @@ A sua solução em C pode ser definida da seguinte forma:
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
 \>[5]{}\mid \Varid{otherwise}\mathrel{=}(\Varid{sep}\;\Varid{a},\Varid{n}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{sep}\mathbin{::}\Conid{Char}\to \Conid{Bool}{}\<[E]%
 \\
-\>[B]{}\hsindent{5}{}\<[5]%
-\>[5]{}\mathbf{where}\;\Varid{sep}\;\Varid{c}\mathrel{=}\Varid{c}\in \text{\tt \char34 \char92 t\char92 n~\char34}{}\<[E]%
+\>[B]{}\Varid{sep}\;\Varid{c}\mathrel{=}\Varid{c}\in \text{\tt \char34 ~\char92 r\char92 n\char92 t\char92 v\char92 f\char92 160\char34}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{prop\char95 wc\char95 w\char95 correctness1}\mathbin{::}\Conid{String}\to \Conid{Bool}{}\<[E]%
+\\
+\>[B]{}\Varid{prop\char95 wc\char95 w\char95 correctness1}\;\Varid{str}\mathrel{=}\length \;(\Varid{words}\;\Varid{str})\equiv \Varid{wc\char95 w\char95 final}\;\Varid{str}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{prop\char95 wc\char95 w\char95 correctness2}\mathbin{::}\Conid{String}\to \Conid{Bool}{}\<[E]%
+\\
+\>[B]{}\Varid{prop\char95 wc\char95 w\char95 correctness2}\;\Varid{str}\mathrel{=}\Varid{wc\char95 w}\;\Varid{str}\equiv \Varid{wc\char95 w\char95 final}\;\Varid{str}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{prop\char95 worker\char95 first}\mathbin{::}\Conid{String}\to \Conid{Bool}{}\<[E]%
+\\
+\>[B]{}\Varid{prop\char95 worker\char95 first}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}\Conid{True}{}\<[E]%
+\\
+\>[B]{}\Varid{prop\char95 worker\char95 first}\;\Varid{str}\mathord{@}(\Varid{c}\mathbin{:\char95 })\mathrel{=}\Varid{sep}\;\Varid{c}\equiv (\p1\;(\Varid{worker}\;\Varid{str})){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
@@ -1245,7 +1260,7 @@ Do enunciado vem que:
 %
 \end{eqnarray*}
 
-
+Vamos agora trabalhar a expressão de modo a que seja possivel utilizá-la na lei Fokkinga
 
 \begin{eqnarray*}
 \start
@@ -1364,9 +1379,11 @@ Uma versão alternativa seria:
 \\
 \>[B]{}\Varid{inordB\char95 tree}\mathbin{::}\mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{t}\to [\mskip1.5mu \Varid{t}\mskip1.5mu]{}\<[E]%
 \\
-\>[B]{}\Varid{inordB\char95 tree}\mathrel{=}\Varid{cataB\char95 tree}\;\Varid{ordgene}{}\<[E]%
+\>[B]{}\Varid{inordB\char95 tree}\mathrel{=}\Varid{cataB\char95 tree}\;\Varid{inorder\char95 g}{}\<[E]%
 \\[\blanklineskip]%
-\>[B]{}\Varid{ordgene}\mathrel{=}\alt{\underline{[\mskip1.5mu \mskip1.5mu]}}{\Varid{join}}{}\<[E]%
+\>[B]{}\Varid{inorder\char95 g}\mathbin{::}()+([\mskip1.5mu \Varid{a}\mskip1.5mu],[\mskip1.5mu (\Varid{a},[\mskip1.5mu \Varid{a}\mskip1.5mu])\mskip1.5mu])\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{inorder\char95 g}\mathrel{=}\alt{\underline{[\mskip1.5mu \mskip1.5mu]}}{\Varid{join}}{}\<[E]%
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
 \>[5]{}\mathbf{where}\;\Varid{join}\mathbin{::}([\mskip1.5mu \Varid{a}\mskip1.5mu],[\mskip1.5mu (\Varid{a},[\mskip1.5mu \Varid{a}\mskip1.5mu])\mskip1.5mu])\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
@@ -1405,6 +1422,7 @@ Uma versão alternativa seria:
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{dotB\char95 tree}\mathbin{::}\Conid{Show}\;\Varid{a}\Rightarrow \mathsf{B}\mbox{-}\mathsf{tree} \;\Varid{a}\to \fun{IO}\;\Conid{ExitCode}{}\<[E]%
 \\
@@ -1416,28 +1434,62 @@ Uma versão alternativa seria:
 \\[\blanklineskip]%
 \>[B]{}\Varid{connect}\mathbin{::}(\Conid{Exp}\;\Varid{v}\;[\mskip1.5mu \Varid{a}\mskip1.5mu],[\mskip1.5mu (\Varid{a},\Conid{Exp}\;\Varid{v}\;[\mskip1.5mu \Varid{a}\mskip1.5mu])\mskip1.5mu])\to \Conid{Exp}\;\Varid{v}\;[\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
 \\
-\>[B]{}\Varid{connect}\;(\Varid{x},\Varid{xs})\mathrel{=}\Conid{Term}\;(\map \;\p1\;\Varid{xs})\;(\Varid{x}\mathbin{:}(\map \;\p2\;\Varid{xs})){}\<[E]%
+\>[B]{}\Varid{connect}\;(\Varid{x},\Varid{xs})\mathrel{=}\Conid{Term}\;\Varid{fsts}\;(\Varid{x}\mathbin{:}\Varid{snds}){}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mathbf{where}\;(\Varid{fsts},\Varid{snds})\mathrel{=}\Varid{unzip}\;\Varid{xs}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
 
-\begin{tabbing}\tt
-~qSortB\char95{}tree~\char58{}\char58{}~Ord~a~\char61{}\char62{}~\char91{}a\char93{}~\char45{}\char62{}~\char91{}a\char93{}\\
-\tt ~qSortB\char95{}tree~\char61{}~hyloB\char95{}tree~ordgene~lsplitB\char95{}tree\\
-\tt ~\\
-\tt ~lsplitB\char95{}tree~\char58{}\char58{}~\char91{}a\char93{}~\char45{}\char62{}~Either~\char40{}\char41{}~\char40{}\char91{}a\char93{}\char44{}~\char91{}\char40{}a\char44{}~\char91{}a\char93{}\char41{}\char93{}\char41{}\\
-\tt ~lsplitB\char95{}tree~\char91{}\char93{}~~\char61{}~i1~\char40{}\char41{}\\
-\tt ~lsplitB\char95{}tree~\char91{}x\char93{}~\char61{}~i2~\char40{}\char91{}\char93{}\char44{}~\char40{}x\char44{}~\char91{}\char93{}\char41{}\char41{}\\
-\tt ~lsplitB\char95{}tree~\char40{}x\char58{}xs\char41{}~\char61{}~~undefined\\
-\tt ~\\
-\tt ~qsep~\char91{}\char93{}~~~~\char61{}~Left~\char40{}\char41{}\\
-\tt ~qsep~\char40{}h\char58{}t\char41{}~\char61{}~Right~\char40{}h\char44{}\char40{}s\char44{}l\char41{}\char41{}~where~\char40{}s\char44{}l\char41{}~\char61{}~part~\char40{}\char60{}h\char41{}~t\\
-\tt ~\\
-\tt ~part\char58{}\char58{}~\char40{}a~\char45{}\char62{}~Bool\char41{}~\char45{}\char62{}~\char91{}a\char93{}~\char45{}\char62{}~\char40{}\char91{}a\char93{}\char44{}~\char91{}a\char93{}\char41{}\\
-\tt ~part~p~\char91{}\char93{}~~~~~~~~~~~~~~~~\char61{}~\char40{}\char91{}\char93{}\char44{}\char91{}\char93{}\char41{}\\
-\tt ~part~p~\char40{}h\char58{}t\char41{}~\char124{}~p~h~~~~~~~\char61{}~let~\char40{}s\char44{}l\char41{}~\char61{}~part~p~t~in~\char40{}h\char58{}s\char44{}l\char41{}\\
-\tt ~~~~~~~~~~~~~~\char124{}~otherwise~\char61{}~let~\char40{}s\char44{}l\char41{}~\char61{}~part~p~t~in~\char40{}s\char44{}h\char58{}l\char41{}
-\end{tabbing}
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{18}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{qSortB\char95 tree}\mathbin{::}\Conid{Ord}\;\Varid{a}\Rightarrow [\mskip1.5mu \Varid{a}\mskip1.5mu]\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{qSortB\char95 tree}\mathrel{=}\Varid{hyloB\char95 tree}\;\Varid{inorder\char95 g}\;\Varid{lsplitB\char95 tree}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{lsplitB\char95 tree}\mathbin{::}\Conid{Ord}\;\Varid{a}\Rightarrow [\mskip1.5mu \Varid{a}\mskip1.5mu]\to ()+([\mskip1.5mu \Varid{a}\mskip1.5mu],[\mskip1.5mu (\Varid{a},[\mskip1.5mu \Varid{a}\mskip1.5mu])\mskip1.5mu]){}\<[E]%
+\\
+\>[B]{}\Varid{lsplitB\char95 tree}\;[\mskip1.5mu \mskip1.5mu]{}\<[18]%
+\>[18]{}\mathrel{=}i_1\;(){}\<[E]%
+\\
+\>[B]{}\Varid{lsplitB\char95 tree}\;(\Varid{x}\mathbin{:}\Varid{xs})\mathrel{=}i_2\;(\Varid{l1},[\mskip1.5mu (\Varid{x},\Varid{l2})\mskip1.5mu]){}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mathbf{where}\;(\Varid{l1},\Varid{l2})\mathrel{=}\Varid{partB\char95 tree}\;(\mathbin{<}\Varid{x})\;\Varid{xs}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{partB\char95 tree}\mathbin{::}(\Varid{a}\to \Conid{Bool})\to [\mskip1.5mu \Varid{a}\mskip1.5mu]\to ([\mskip1.5mu \Varid{a}\mskip1.5mu],[\mskip1.5mu \Varid{a}\mskip1.5mu]){}\<[E]%
+\\
+\>[B]{}\Varid{partB\char95 tree}\mathrel{=}\Varid{partition}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Mostramos de seguida como proceder à definição da árvore: 
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{t}\mathrel{=}\Conid{Block}\;\{\mskip1.5mu \Varid{leftmost}\mathrel{=}\Conid{Block}\;\{\mskip1.5mu \Varid{leftmost}\mathrel{=}\Conid{Nil},\Varid{block}\mathrel{=}[\mskip1.5mu (\mathrm{1},\Conid{Nil}),(\mathrm{2},\Conid{Nil}),(\mathrm{5},\Conid{Nil}),(\mathrm{6},\Conid{Nil})\mskip1.5mu]\mskip1.5mu\},\Varid{block}\mathrel{=}[\mskip1.5mu (\mathrm{7},\Conid{Block}\;\{\mskip1.5mu \Varid{leftmost}\mathrel{=}\Conid{Nil},\Varid{block}\mathrel{=}[\mskip1.5mu (\mathrm{9},\Conid{Nil}),(\mathrm{12},\Conid{Nil})\mskip1.5mu]\mskip1.5mu\}),(\mathrm{16},\Conid{Block}\;\{\mskip1.5mu \Varid{leftmost}\mathrel{=}\Conid{Nil},\Varid{block}\mathrel{=}[\mskip1.5mu (\mathrm{18},\Conid{Nil}),(\mathrm{21},\Conid{Nil})\mskip1.5mu]\mskip1.5mu\})\mskip1.5mu]\mskip1.5mu\}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Seguido do comando para a geração do ficheiro .dot: 
+\begin{quote}
+dotB\_tree t 
+\end{quote}
+
+Para a obtenção da imagem é necessário correr o seguinte comando: 
+\begin{quote}
+dot -Tpng digraphG.dot -o diagrama.png
+\end{quote}
+
+
+\begin{center}
+       \includegraphics[width=0.7\textwidth]{diagrama.png}
+\end{center}
 
 \subsection*{Problema 4}
 
@@ -1462,13 +1514,19 @@ Uma versão alternativa seria:
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{generateAlgae}\mathbin{::}\Conid{Int}\to \Conid{Algae}{}\<[E]%
 \\
-\>[B]{}\Varid{generateAlgae}\mathrel{=}\ana{\Varid{ga}~\Varid{gb}}_A\comp \succ {}\<[E]%
+\>[B]{}\Varid{generateAlgae}\mathrel{=}\ana{\Varid{ga}~\Varid{gb}}_A{}\<[E]%
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
-\>[5]{}\mathbf{where}\;\Varid{ga}\;\mathrm{0}\mathrel{=}i_1\;(){}\<[E]%
+\>[5]{}\mathbf{where}\;\Varid{ga}\mathbin{::}\Conid{Int}\to 1+\Conid{Int}\times\Conid{Int}{}\<[E]%
+\\
+\>[5]{}\hsindent{6}{}\<[11]%
+\>[11]{}\Varid{ga}\;\mathrm{0}\mathrel{=}i_1\;(){}\<[E]%
 \\
 \>[5]{}\hsindent{6}{}\<[11]%
 \>[11]{}\Varid{ga}\;\Varid{n}\mathrel{=}i_2\;(\Varid{pred}\;\Varid{n},\Varid{pred}\;\Varid{n}){}\<[E]%
+\\
+\>[5]{}\hsindent{6}{}\<[11]%
+\>[11]{}\Varid{gb}\mathbin{::}\Conid{Int}\to 1+\Conid{Int}{}\<[E]%
 \\
 \>[5]{}\hsindent{6}{}\<[11]%
 \>[11]{}\Varid{gb}\;\mathrm{0}\mathrel{=}i_1\;(){}\<[E]%
@@ -1481,10 +1539,25 @@ Uma versão alternativa seria:
 \>[B]{}\Varid{showAlgae}\mathrel{=}\cata{\Varid{ga}~\Varid{gb}}_A{}\<[E]%
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
-\>[5]{}\mathbf{where}\;\Varid{ga}\mathrel{=}\alt{\underline{\text{\tt \char34 A\char34}}}{\uncurry{(\plus )}}{}\<[E]%
+\>[5]{}\mathbf{where}\;\Varid{ga}\mathbin{::}\Varid{a}+(\Conid{String},\Conid{String})\to \Conid{String}{}\<[E]%
+\\
+\>[5]{}\hsindent{6}{}\<[11]%
+\>[11]{}\Varid{ga}\mathrel{=}\alt{\underline{\text{\tt \char34 A\char34}}}{\uncurry{(\plus )}}{}\<[E]%
+\\
+\>[5]{}\hsindent{6}{}\<[11]%
+\>[11]{}\Varid{gb}\mathbin{::}\Varid{a}+\Conid{String}\to \Conid{String}{}\<[E]%
 \\
 \>[5]{}\hsindent{6}{}\<[11]%
 \>[11]{}\Varid{gb}\mathrel{=}\alt{\underline{\text{\tt \char34 B\char34}}}{\Varid{id}}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{prop\char95 algae}\mathbin{::}\Conid{Property}{}\<[E]%
+\\
+\>[B]{}\Varid{prop\char95 algae}\mathrel{=}\Varid{forAll}\;(\Varid{elements}\;[\mskip1.5mu \mathrm{0}\mathinner{\ldotp\ldotp}\mathrm{25}\mskip1.5mu])\mathbin{\$}\lambda \Varid{n}\to (\length \comp \Varid{showAlgae}\comp \Varid{generateAlgae})\;\Varid{n}\equiv (\Varid{fromIntegral}\;((\Varid{fib}\comp \succ )\;(\Varid{fromIntegral}\;\Varid{n}))){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
