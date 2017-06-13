@@ -56,6 +56,8 @@
 %format IO = "\fun{IO}"
 %format BTree = "\fun{BTree} "
 %format LTree = "\mathsf{LTree}"
+%format (lcbr (x)(y)) = "\begin{lcbr}" x "\\" y "\end{lcbr}"
+%format (longcond (c)(t)(e)) = "\begin{array}{ll}\multicolumn{2}{l}{" c -> "}\\& " t ",\\& " e "\end{array}"
 %-------------- interface with pdbc.lhs ------------------------------------
 \def\monadification{4.10}
 %---------------------------------------------------------------------------
@@ -91,7 +93,7 @@ a67637 & Célia Figueiredo
 \\
 a67662 & Adriana Pereira
 \\
-a60 & Luís Pedro Fonseca 
+a60993 & Luís Pedro Fonseca 
 \end{tabular}
 \end{center}
 
@@ -718,12 +720,12 @@ prop_inv_correctness :: NonNegative Int -> Property
 prop_inv_correctness (NonNegative n) = forAll (choose(1, 1.999)) $ \x -> diff n x > tolerance
     where diff :: Int -> Double -> Double
           diff n x = abs $ x - (inv x n)
-          tolerance = 0.000001
+          tolerance = 0.0001
 
 \end{code}
 
 A sua solução em C pode ser definida da seguinte forma:
-\begin{quote}
+\begin{verbatim}
 \#include <math.h>
 
 float inv(float x, int n){
@@ -733,15 +735,14 @@ float inv(float x, int n){
     }
     return accum;
 }
-\end{quote}
+\end{verbatim}
+
+
 
 
 \subsection*{Problema 2}
-\begin{code}
-wc_w_final :: [Char] -> Int
-wc_w_final = wrapper . worker
 
-{-
+\begin{verbatim}
 
 wrapper :: [Int] -> Int
 wrapper = cataList (either (const 0) (uncurry (+)))
@@ -755,7 +756,13 @@ worker (c1:c2:cs)
     | not (sep c1) && sep (c2) = 1 : worker (c2:cs)
     | otherwise                = 0 : worker (c2:cs)
 
--}
+\end{verbatim}
+
+
+\begin{code}
+wc_w_final :: [Char] -> Int
+wc_w_final = wrapper . worker
+
 
 wrapper :: (Prod a b) -> b
 wrapper = snd
@@ -780,6 +787,60 @@ prop_worker_first str@(c:_) = sep c == (fst (worker str))
 
 \end{code}
 
+
+Do enunciado vem que:
+
+\begin{eqnarray*}
+\start
+|lcbr (wc_w.nil = const 0) (wc_w.cons = cond p (succ.wc_w.p2) (wc_w.p2)|
+\end{eqnarray*}
+
+
+, em que:
+
+
+\begin{eqnarray*}
+\start
+        wc\_w\_final = wrapper . worker
+%
+\just={ justificação ..... }
+%
+        |alpha.(split (p.f) f)|
+%
+\just={ justificação ..... }
+%
+        |alpha.(id >< f).(split (p.f) id)|
+%
+      ---- etc -----
+%
+\end{eqnarray*}
+
+Vamos agora trabalhar a expressão de modo a que seja possivel utilizá-la na lei Fokkinga
+
+\begin{eqnarray*}
+\start
+        |lcbr (lookahead.nil = True) (lookahead.cons = sep.p1|
+\just={ Eq- + (27)}
+        |lookahead.in = either (True) (sep.p1) |
+\just={ Natural-|p1| (12)}
+        |lookahead.in = either (True) (p1.(sep >< lookahead)) |
+\just={ Absorção- + (22)}
+        |lookahead.in = (either (True) (p1)).(id + (sep >< lookahead)) |
+\just={ |lookahead = p1.(split(lookahead)(wc_w))|}
+        |lookahead.in = (either (True) (p1)).(id + (sep >< p1.(split(lookahead)(wc_w)))) |
+\just={ Functor-x (14)}
+        |lookahead.in = (either (True) (p1)).(id + (sep >< p1).(id >< (split(lookahead)(wc_w)))) |
+\just={ Functor-+ (25)}
+        |lookahead.in = (either (True) (p1)).(id + (sep >< p1)).(id + (id >< (split(lookahead)(wc_w)))) |
+\just={ Absorção-+ (22)}
+        |lookahead.in = (either (True) (p1.(sep >< p1)) ).(id + (id >< (split(lookahead)(wc_w)))) |
+\just={ Natural-|p1| (12) }
+        |lookahead.in = (either (True) (sep.p1)).(id + (id >< p1.(split(lookahead)(wc_w)))) |
+\end{eqnarray*}
+
+
+
+
 \subsection*{Problema 3}
 
 Para gerar o gráfico basta correr este comando: 
@@ -793,16 +854,33 @@ inB_tree = either (const Nil) joinB_trees
 joinB_trees :: (B_tree a, [(a, B_tree a)]) -> B_tree a
 joinB_trees (t1, ts) = Block { leftmost = t1, block = ts}
 
+\end{code}
+
+Uma versão alternativa seria: 
+
+\begin{verbatim}
+inB_tree :: Either () (B_tree a, [(a, B_tree a)]) -> B_tree a
+inB_tree = either (const Nil) (uncurry Block)
+\end{verbatim}
+
+\begin{code}
 outB_tree :: B_tree a -> Either () (B_tree a, [(a, B_tree a)])
 outB_tree Nil = i1 ()
 outB_tree (Block left block) = i2 (left, block) 
+\end{code}
 
+
+\begin{code}
 recB_tree :: (b -> d) -> Either z (b, [(a, b)]) -> Either z (d, [(a, d)])
 recB_tree f = id -|- (f >< (map (id >< f)))
+\end{code}
 
+\begin{code}
 baseB_tree :: (a1 -> b1) -> (a -> d) -> Either b (a, [(a1, a)]) -> Either b (d, [(b1, d)])
 baseB_tree g f = id -|- (f >< (map (g >< f)))
+\end{code}
 
+\begin{code}
 cataB_tree :: (Either () (d, [(a, d)]) -> d) -> B_tree a -> d
 cataB_tree g = g . (recB_tree (cataB_tree g)) . outB_tree
 
@@ -811,9 +889,17 @@ anaB_tree g = inB_tree . (recB_tree (anaB_tree g)) . g
 
 hyloB_tree :: (Either () (c, [(a, c)]) -> c) -> (b -> Either () (b, [(a, b)])) -> b -> c
 hyloB_tree f g = cataB_tree f . anaB_tree g
+\end{code}
+
+
+\begin{code}
 
 instance Functor B_tree
          where fmap f = cataB_tree ( inB_tree . baseB_tree f id)
+
+\end{code}
+
+\begin{code}
 
 -- esq meio dir
 inordB_tree :: B_tree t -> [t]
@@ -824,16 +910,22 @@ ordgene = either (const []) join
     where join :: ([a], [(a, [a])]) -> [a]
           join (xs, ys) = xs ++ concat (map (\(n, zs) -> (n:zs)) ys)
 
+\end{code}
 
+
+\begin{code}
 largestBlock :: B_tree t -> Int
 largestBlock = cataB_tree (either (const 0) size)
   where size :: (Int, [(a, Int)]) -> Int
         size (x, ys) = max x (length ys)
+\end{code}
 
+\begin{code}
 mirrorB_tree :: B_tree a -> B_tree a
 mirrorB_tree = cataB_tree (inB_tree . (id -|- (id >< reverse)))
+\end{code}
 
-
+\begin{code}
 dotB_tree :: Show a => B_tree a -> IO ExitCode
 dotB_tree = dotpict . bmap nothing (Just . show) . cB_tree2Exp
 
@@ -842,9 +934,10 @@ cB_tree2Exp = cataB_tree (either (const (Var "nil")) connect)
 
 connect :: (Exp v [a], [(a, Exp v [a])]) -> Exp v [a]
 connect (x, xs) = Term (map fst xs) (x : (map snd xs))
+\end{code}
 
 
-{-
+\begin{verbatim}
 qSortB_tree :: Ord a => [a] -> [a]
 qSortB_tree = hyloB_tree ordgene lsplitB_tree
 
@@ -862,9 +955,7 @@ part p (h:t) | p h       = let (s,l) = part p t in (h:s,l)
              | otherwise = let (s,l) = part p t in (s,h:l)
 
 
--}
-
-\end{code}
+\end{verbatim}
 
 \subsection*{Problema 4}
 
@@ -909,8 +1000,9 @@ permuta input = do
                 (x, xs) <- getR input
                 permuted <- permuta xs
                 return (x : permuted)
+\end{code}
 
-
+\begin{code}
 eliminatoria :: LTree Equipa -> Dist Equipa
 eliminatoria = cataLTree g
     where g :: Either Equipa (Dist Equipa, Dist Equipa) -> Dist Equipa
