@@ -903,10 +903,10 @@ instance Functor B_tree
 
 -- esq meio dir
 inordB_tree :: B_tree t -> [t]
-inordB_tree = cataB_tree ordgene
+inordB_tree = cataB_tree inorder_g
     
-ordgene :: Either () ([a], [(a, [a])]) -> [a]
-ordgene = either (const []) join
+inorder_g :: Either () ([a], [(a, [a])]) -> [a]
+inorder_g = either (const []) join
     where join :: ([a], [(a, [a])]) -> [a]
           join (xs, ys) = xs ++ concat (map (\(n, zs) -> (n:zs)) ys)
 
@@ -933,29 +933,24 @@ cB_tree2Exp :: B_tree a -> Exp [Char] [a]
 cB_tree2Exp = cataB_tree (either (const (Var "nil")) connect)
 
 connect :: (Exp v [a], [(a, Exp v [a])]) -> Exp v [a]
-connect (x, xs) = Term (map fst xs) (x : (map snd xs))
+connect (x, xs) = Term fsts (x : snds)
+    where (fsts, snds) = unzip xs
 \end{code}
 
 
-\begin{verbatim}
+\begin{code}
 qSortB_tree :: Ord a => [a] -> [a]
-qSortB_tree = hyloB_tree ordgene lsplitB_tree
+qSortB_tree = hyloB_tree inorder_g lsplitB_tree
 
-lsplitB_tree :: [a] -> Either () ([a], [(a, [a])])
+lsplitB_tree :: Ord a => [a] -> Either () ([a], [(a, [a])])
 lsplitB_tree []  = i1 ()
-lsplitB_tree [x] = i2 ([], (x, []))
-lsplitB_tree (x:xs) =  undefined
+lsplitB_tree (x:xs) = i2 (l1, [(x, l2)])
+    where (l1, l2) = partB_tree (< x) xs
 
-qsep []    = Left ()
-qsep (h:t) = Right (h,(s,l)) where (s,l) = part (<h) t
+partB_tree :: (a -> Bool) -> [a] -> ([a], [a])
+partB_tree = partition
 
-part:: (a -> Bool) -> [a] -> ([a], [a])
-part p []                = ([],[])
-part p (h:t) | p h       = let (s,l) = part p t in (h:s,l)
-             | otherwise = let (s,l) = part p t in (s,h:l)
-
-
-\end{verbatim}
+\end{code}
 
 \subsection*{Problema 4}
 
