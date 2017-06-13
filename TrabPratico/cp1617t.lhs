@@ -178,7 +178,7 @@ import Exp
 import BTree
 import LTree
 import St 
-import Probability hiding (cond)
+import Probability hiding (cond, choose)
 import Data.List
 import Test.QuickCheck hiding ((><))
 import System.Random  hiding (split)
@@ -709,10 +709,16 @@ propostos, de acordo com o ``layout'' que se fornece. Não podem ser alterados o
 \subsection*{Problema 1}
 
 \begin{code}
+inv :: Double -> Int -> Double
 inv x n = snd $ for (invAccum x) (0, 0) n
-    where invAccum x (it, accum) = (it + 1, accum + (1 - x) ** it)
+    where invAccum :: Double -> (Double, Double) -> (Double, Double)
+          invAccum x (it, accum) = (it + 1, accum + (1 - x) ** it)
 
--- prop_inv_correctness x = inv x n - (1 / x) < 0.1
+prop_inv_correctness :: NonNegative Int -> Property
+prop_inv_correctness (NonNegative n) = forAll (choose(1, 1.999)) $ \x -> diff n x > tolerance
+    where diff :: Int -> Double -> Double
+          diff n x = abs $ x - (inv x n)
+          tolerance = 0.000001
 
 \end{code}
 
@@ -751,6 +757,7 @@ worker (c1:c2:cs)
 
 -}
 
+wrapper :: (Prod a b) -> b
 wrapper = snd
 
 worker :: [Char] -> (Bool, Int)
@@ -760,7 +767,17 @@ wordAccum :: (Char, (Bool, Int)) -> (Bool, Int)
 wordAccum (a, (b, n))
     | b && (not . sep) a = (sep a, succ n)
     | otherwise = (sep a, n)
-    where sep c = c `elem` "\t\n "
+
+sep :: Char -> Bool
+sep c = c `elem` " \r\n\t\v\f\160"
+
+prop_wc_w_correctness :: String -> Bool
+prop_wc_w_correctness str = length (words str) == wc_w_final str
+
+prop_worker_first :: String -> Bool
+prop_worker_first [] = True
+prop_worker_first str@(c:_) = sep c == (fst (worker str))
+
 \end{code}
 
 \subsection*{Problema 3}
@@ -802,6 +819,7 @@ instance Functor B_tree
 inordB_tree :: B_tree t -> [t]
 inordB_tree = cataB_tree ordgene
     
+ordgene :: Either () ([a], [(a, [a])]) -> [a]
 ordgene = either (const []) join
     where join :: ([a], [(a, [a])]) -> [a]
           join (xs, ys) = xs ++ concat (map (\(n, zs) -> (n:zs)) ys)
@@ -862,16 +880,23 @@ anaB ga gb = inB . (id -|- anaA ga gb) . gb
 
 \begin{code}
 generateAlgae :: Int -> Algae
-generateAlgae = (anaA ga gb) . succ
-    where ga 0 = i1 ()
+generateAlgae = anaA ga gb
+    where ga :: Int -> Either Null (Prod Int Int)
+          ga 0 = i1 ()
           ga n = i2 (pred n, pred n)
+          gb :: Int -> Either Null Int
           gb 0 = i1 ()
           gb n = i2 (pred n)
 
 showAlgae :: Algae -> String
 showAlgae = cataA ga gb
-    where ga = either (const "A") (uncurry (++))
+    where ga :: Either a (String, String) -> String
+          ga = either (const "A") (uncurry (++))
+          gb :: Either a String -> String
           gb = either (const "B") id
+
+prop_algae :: Property
+prop_algae = forAll (elements [0..25]) $ \n -> (length . showAlgae . generateAlgae) n == (fromIntegral ((fib . succ) (fromIntegral n)))
 
 \end{code}
 
@@ -895,6 +920,9 @@ eliminatoria = cataLTree g
                                 e1 <- de1
                                 e2 <- de2
                                 jogo (e1, e2)  
+
+
+
 
 \end{code}
 
