@@ -56,6 +56,8 @@
 %format IO = "\fun{IO}"
 %format BTree = "\fun{BTree} "
 %format LTree = "\mathsf{LTree}"
+%format (lcbr (x)(y)) = "\begin{lcbr}" x "\\" y "\end{lcbr}"
+%format (longcond (c)(t)(e)) = "\begin{array}{ll}\multicolumn{2}{l}{" c -> "}\\& " t ",\\& " e "\end{array}"
 %-------------- interface with pdbc.lhs ------------------------------------
 \def\monadification{4.10}
 %---------------------------------------------------------------------------
@@ -743,10 +745,7 @@ float inv(float x, int n){
 
 \subsection*{Problema 2}
 
-
-
-
-{-
+\begin{verbatim}
 
 wrapper :: [Int] -> Int
 wrapper = cataList (either (const 0) (uncurry (+)))
@@ -760,7 +759,7 @@ worker (c1:c2:cs)
     | not (sep c1) && sep (c2) = 1 : worker (c2:cs)
     | otherwise                = 0 : worker (c2:cs)
 
--}
+\end{verbatim}
 
 
 \begin{code}
@@ -780,6 +779,18 @@ wordAccum (a, (b, n))
     where sep c = c `elem` "\t\n "
 \end{code}
 
+
+Do enunciado vem que:
+
+\begin{eqnarray*}
+\start
+|lcbr (wc_w.nil = const 0) (wc_w.cons = cond p (succ.wc_w.p2) (wc_w.p2)|
+\end{eqnarray*}
+
+
+, em que:
+
+
 \begin{eqnarray*}
 \start
         wc\_w\_final = wrapper . worker
@@ -795,6 +806,32 @@ wordAccum (a, (b, n))
       ---- etc -----
 %
 \end{eqnarray*}
+
+Vamos agora trabalhar a expressão de modo a que seja possivel utilizá-la na lei Fokkinga
+
+\begin{eqnarray*}
+\start
+        |lcbr (lookahead.nil = True) (lookahead.cons = sep.p1|
+\just={ Eq- + (27)}
+        |lookahead.in = either (True) (sep.p1) |
+\just={ Natural-|p1| (12)}
+        |lookahead.in = either (True) (p1.(sep >< lookahead)) |
+\just={ Absorção- + (22)}
+        |lookahead.in = (either (True) (p1)).(id + (sep >< lookahead)) |
+\just={ |lookahead = p1.(split(lookahead)(wc_w))|}
+        |lookahead.in = (either (True) (p1)).(id + (sep >< p1.(split(lookahead)(wc_w)))) |
+\just={ Functor-x (14)}
+        |lookahead.in = (either (True) (p1)).(id + (sep >< p1).(id >< (split(lookahead)(wc_w)))) |
+\just={ Functor-+ (25)}
+        |lookahead.in = (either (True) (p1)).(id + (sep >< p1)).(id + (id >< (split(lookahead)(wc_w)))) |
+\just={ Absorção-+ (22)}
+        |lookahead.in = (either (True) (p1.(sep >< p1)) ).(id + (id >< (split(lookahead)(wc_w)))) |
+\just={ Natural-|p1| (12) }
+        |lookahead.in = (either (True) (sep.p1)).(id + (id >< p1.(split(lookahead)(wc_w)))) |
+\end{eqnarray*}
+
+
+
 
 \subsection*{Problema 3}
 

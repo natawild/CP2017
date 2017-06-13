@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.9)  13 JUN 2017 14:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.9)  13 JUN 2017 17:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -974,19 +974,7 @@ Overfull \hbox (1.64172pt too wide) in paragraph at lines 1120--1122
 [11]
 \openout5 = `cp1617t.ptb'.
 
-\openout5 = `cp1617t.ptb'.
-
-\openout5 = `cp1617t.ptb'.
-
-\openout5 = `cp1617t.ptb'.
-
-\openout5 = `cp1617t.ptb'.
-
  [12]
-\openout5 = `cp1617t.ptb'.
-
-\openout5 = `cp1617t.ptb'.
-
 \openout5 = `cp1617t.ptb'.
 
 \openout5 = `cp1617t.ptb'.
@@ -1004,28 +992,41 @@ Overfull \hbox (1.64172pt too wide) in paragraph at lines 1120--1122
 
 \openout5 = `cp1617t.ptb'.
 
- (./cp1617t.ind [14] [15
+\openout5 = `cp1617t.ptb'.
+
+\openout5 = `cp1617t.ptb'.
+
+\openout5 = `cp1617t.ptb'.
+
+\openout5 = `cp1617t.ptb'.
+
+ [14]
+\openout5 = `cp1617t.ptb'.
+
+\openout5 = `cp1617t.ptb'.
+
+ (./cp1617t.ind [15] [16
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1518.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1518.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1575.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1575.
  (./cp1617t.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1518.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1518.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1575.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1575.
 
 Package rerunfilecheck Info: File `cp1617t.out' has not changed.
 (rerunfilecheck)             Checksum: 5DC94B7046BAC0227E6F46C9CCE6DE02;364.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1518.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1575.
  ) 
 Here is how much of TeX's memory you used:
- 10731 strings out of 493014
- 147142 string characters out of 6133352
- 302504 words of memory out of 5000000
- 13954 multiletter control sequences out of 15000+600000
+ 10747 strings out of 493014
+ 147365 string characters out of 6133352
+ 303504 words of memory out of 5000000
+ 13969 multiletter control sequences out of 15000+600000
  40916 words of font info for 124 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 32i,10n,43p,3280b,495s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 32i,16n,43p,3280b,495s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/tex
@@ -1033,24 +1034,26 @@ live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texl
 ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texliv
 e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/
 2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/20
-16/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2016/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2016/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2016/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/texlive/2016/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2016/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2016/texmf-dist/fon
-ts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
-/urw/palatino/uplb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/pa
-latino/uplr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/palatino/
-uplr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/palatino/uplri8a
-.pfb>
-Output written on cp1617t.pdf (15 pages, 418417 bytes).
+16/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2016/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2016/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2016/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2016/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2016/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/texlive/2016/texmf-dist/font
+s/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2016/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2016/texmf-dist/fonts/ty
+pe1/urw/courier/ucrr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/
+palatino/uplb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/palatin
+o/uplr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/palatino/uplr8
+a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
+
+Output written on cp1617t.pdf (16 pages, 437422 bytes).
 PDF statistics:
- 351 PDF objects out of 1000 (max. 8388607)
- 306 compressed objects within 4 object streams
- 61 named destinations out of 1000 (max. 500000)
+ 363 PDF objects out of 1000 (max. 8388607)
+ 315 compressed objects within 4 object streams
+ 62 named destinations out of 1000 (max. 500000)
  69 words of extra memory for PDF output out of 10000 (max. 10000000)
 

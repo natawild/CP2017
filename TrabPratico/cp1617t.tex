@@ -1125,11 +1125,31 @@ propostos, de acordo com o ``layout'' que se fornece. Não podem ser alterados o
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{43}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{47}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{65}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{inv}\;\Varid{x}\;\Varid{n}\mathrel{=}\p2\mathbin{\$}\mathsf{for}\ (\Varid{invAccum}\;\Varid{x})\ (\mathrm{0},\mathrm{0})\;\Varid{n}{}\<[E]%
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
 \>[5]{}\mathbf{where}\;\Varid{invAccum}\;\Varid{x}\;(\Varid{it},\Varid{accum})\mathrel{=}(\Varid{it}\mathbin{+}\mathrm{1},\Varid{accum}\mathbin{+}(\mathrm{1}\mathbin{-}\Varid{x})\mathbin{**}\Varid{it}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{val1}\mathbin{::}\Conid{Gen}\;\Conid{Double}{}\<[E]%
+\\
+\>[B]{}\Varid{val1}\mathrel{=}\Varid{\Conid{Test}.\Conid{QuickCheck}.suchThat}\;\Varid{arbitrary}\;(\lambda \Varid{i}\to \Varid{i}\mathbin{>}\mathrm{1}\mathrel{\wedge}\Varid{i}\mathbin{<}\mathrm{2}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{prop\char95 inv}\;(\Conid{Positive}\;\Varid{n})\mathrel{=}\Varid{forAll}\;\Varid{val1}\mathbin{\$}\lambda \Varid{x}\to {}\<[E]%
+\\
+\>[B]{}\hsindent{43}{}\<[43]%
+\>[43]{}\mathbf{let}\;\Varid{apro}\mathrel{=}\Varid{inv}\;\Varid{x}\;(\Varid{n}\mathbin{+}\mathrm{1}){}\<[E]%
+\\
+\>[43]{}\hsindent{4}{}\<[47]%
+\>[47]{}\Varid{real}\mathrel{=}\mathrm{1}\mathbin{/}\Varid{x}{}\<[E]%
+\\
+\>[B]{}\hsindent{43}{}\<[43]%
+\>[43]{}\mathbf{in}\;{}\<[47]%
+\>[47]{}\Varid{abs}\;(\Varid{real}\mathbin{-}\Varid{apro}){}\<[65]%
+\>[65]{}\mathbin{<}\mathrm{0.1}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
@@ -1149,24 +1169,23 @@ A sua solução em C pode ser definida da seguinte forma:
 \end{tabbing}
 
 
+
+
 \subsection*{Problema 2}
 
-
-
-
-{-
-
-wrapper :: [Int] -> Int
-wrapper = cataList (either (const 0) (uncurry (+)))
-
-worker :: [Char] -> [Int]
-worker []                      = []
-worker [c]
-    \ensuremath{\neg \;(\Varid{sep}\;\Varid{c})\mathrel{=}[\mskip1.5mu \mathrm{1}\mskip1.5mu]} otherwise   = [0]
-worker (c1:c2:cs)
-    \ensuremath{\neg \;(\Varid{sep}\;\Varid{c1})\mathrel{\wedge}\Varid{sep}\;(\Varid{c2})\mathrel{=}\mathrm{1}\mathbin{:}\Varid{worker}\;(\Varid{c2}\mathbin{:}\Varid{cs})} otherwise                = 0 : worker (c2:cs)
-
--}
+\begin{tabbing}\tt
+~wrapper~\char58{}\char58{}~\char91{}Int\char93{}~\char45{}\char62{}~Int\\
+\tt ~wrapper~\char61{}~cataList~\char40{}either~\char40{}const~0\char41{}~\char40{}uncurry~\char40{}\char43{}\char41{}\char41{}\char41{}\\
+\tt ~\\
+\tt ~worker~\char58{}\char58{}~\char91{}Char\char93{}~\char45{}\char62{}~\char91{}Int\char93{}\\
+\tt ~worker~\char91{}\char93{}~~~~~~~~~~~~~~~~~~~~~~\char61{}~\char91{}\char93{}\\
+\tt ~worker~\char91{}c\char93{}\\
+\tt ~~~~~\char124{}~not~\char40{}sep~c\char41{}~\char61{}~\char91{}1\char93{}\\
+\tt ~~~~~\char124{}~otherwise~~~\char61{}~\char91{}0\char93{}\\
+\tt ~worker~\char40{}c1\char58{}c2\char58{}cs\char41{}\\
+\tt ~~~~~\char124{}~not~\char40{}sep~c1\char41{}~\char38{}\char38{}~sep~\char40{}c2\char41{}~\char61{}~1~\char58{}~worker~\char40{}c2\char58{}cs\char41{}\\
+\tt ~~~~~\char124{}~otherwise~~~~~~~~~~~~~~~~\char61{}~0~\char58{}~worker~\char40{}c2\char58{}cs\char41{}
+\end{tabbing}
 
 
 \begin{hscode}\SaveRestoreHook
@@ -1198,6 +1217,18 @@ worker (c1:c2:cs)
 \ColumnHook
 \end{hscode}\resethooks
 
+
+Do enunciado vem que:
+
+\begin{eqnarray*}
+\start
+\ensuremath{\begin{lcbr}\Varid{wc\char95 w}\comp \Varid{nil}\mathrel{=}\underline{\mathrm{0}}\\\Varid{wc\char95 w}\comp \Varid{cons}\mathrel{=}\Varid{cond}\;\Varid{p}\;(\succ \comp \Varid{wc\char95 w}\comp \p2)\;(\Varid{wc\char95 w}\comp \p2)\end{lcbr}}
+\end{eqnarray*}
+
+
+, em que:
+
+
 \begin{eqnarray*}
 \start
         wc\_w\_final = wrapper . worker
@@ -1213,6 +1244,32 @@ worker (c1:c2:cs)
       ---- etc -----
 %
 \end{eqnarray*}
+
+
+
+\begin{eqnarray*}
+\start
+        \ensuremath{\begin{lcbr}\Varid{lookahead}\comp \Varid{nil}\mathrel{=}\Conid{True}\\\Varid{lookahead}\comp \Varid{cons}\mathrel{=}\Varid{sep}\comp \p1\end{lcbr}}
+\just={ Eq- + (27)}
+        \ensuremath{\Varid{lookahead}\comp \mathbf{in}\mathrel{=}\alt{\Conid{True}}{\Varid{sep}\comp \p1}}
+\just={ Natural-\ensuremath{\p1} (12)}
+        \ensuremath{\Varid{lookahead}\comp \mathbf{in}\mathrel{=}\alt{\Conid{True}}{\p1\comp (\Varid{sep}\times\Varid{lookahead})}}
+\just={ Absorção- + (22)}
+        \ensuremath{\Varid{lookahead}\comp \mathbf{in}\mathrel{=}\alt{\Conid{True}}{\p1}\comp (\Varid{id}\mathbin{+}(\Varid{sep}\times\Varid{lookahead}))}
+\just={ \ensuremath{\Varid{lookahead}\mathrel{=}\p1\comp \conj{\Varid{lookahead}}{\Varid{wc\char95 w}}}}
+        \ensuremath{\Varid{lookahead}\comp \mathbf{in}\mathrel{=}\alt{\Conid{True}}{\p1}\comp (\Varid{id}\mathbin{+}(\Varid{sep}\times\p1\comp \conj{\Varid{lookahead}}{\Varid{wc\char95 w}}))}
+\just={ Functor-x (14)}
+        \ensuremath{\Varid{lookahead}\comp \mathbf{in}\mathrel{=}\alt{\Conid{True}}{\p1}\comp (\Varid{id}\mathbin{+}(\Varid{sep}\times\p1)\comp (\Varid{id}\times\conj{\Varid{lookahead}}{\Varid{wc\char95 w}}))}
+\just={ Functor-+ (25)}
+        \ensuremath{\Varid{lookahead}\comp \mathbf{in}\mathrel{=}\alt{\Conid{True}}{\p1}\comp (\Varid{id}\mathbin{+}(\Varid{sep}\times\p1))\comp (\Varid{id}\mathbin{+}(\Varid{id}\times\conj{\Varid{lookahead}}{\Varid{wc\char95 w}}))}
+\just={ Absorção-+ (22)}
+        \ensuremath{\Varid{lookahead}\comp \mathbf{in}\mathrel{=}\alt{\Conid{True}}{\p1\comp (\Varid{sep}\times\p1)}\comp (\Varid{id}\mathbin{+}(\Varid{id}\times\conj{\Varid{lookahead}}{\Varid{wc\char95 w}}))}
+\just={ Natural-\ensuremath{\p1} (12) }
+        \ensuremath{\Varid{lookahead}\comp \mathbf{in}\mathrel{=}\alt{\Conid{True}}{\Varid{sep}\comp \p1}\comp (\Varid{id}\mathbin{+}(\Varid{id}\times\p1\comp \conj{\Varid{lookahead}}{\Varid{wc\char95 w}}))}
+\end{eqnarray*}
+
+
+
 
 \subsection*{Problema 3}
 
