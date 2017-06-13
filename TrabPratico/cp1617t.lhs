@@ -91,7 +91,7 @@ a67637 & Célia Figueiredo
 \\
 a67662 & Adriana Pereira
 \\
-a60 & Luís Pedro Fonseca 
+a60993 & Luís Pedro Fonseca 
 \end{tabular}
 \end{center}
 
@@ -717,7 +717,7 @@ inv x n = snd $ for (invAccum x) (0, 0) n
 \end{code}
 
 A sua solução em C pode ser definida da seguinte forma:
-\begin{quote}
+\begin{verbatim}
 \#include <math.h>
 
 float inv(float x, int n){
@@ -727,7 +727,7 @@ float inv(float x, int n){
     }
     return accum;
 }
-\end{quote}
+\end{verbatim}
 
 
 \subsection*{Problema 2}

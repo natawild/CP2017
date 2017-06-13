@@ -1,8 +1,8 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.9)  4 MAY 2017 10:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.9)  13 JUN 2017 10:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**cp1617t.tex
+**cp1617t
 (./cp1617t.tex
 LaTeX2e <2016/03/31>
 Babel <3.9r> and hyphenation patterns for 83 language(s) loaded.
@@ -931,30 +931,21 @@ LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <10> not available
 
 \openout5 = `cp1617t.ptb'.
 
-\openout5 = `cp1617t.ptb'.
-
-\openout5 = `cp1617t.ptb'.
-
  [7]
 <cp1617t_media/sorteio.jpg, id=162, 1632.0975pt x 422.57875pt>
 File: cp1617t_media/sorteio.jpg Graphic file (type jpg)
 
 <use cp1617t_media/sorteio.jpg>
-Package pdftex.def Info: cp1617t_media/sorteio.jpg used on input line 827.
+Package pdftex.def Info: cp1617t_media/sorteio.jpg used on input line 821.
 (pdftex.def)             Requested size: 455.24411pt x 117.86987pt.
 \openout5 = `cp1617t.ptb'.
 
 \openout5 = `cp1617t.ptb'.
 
  [8 <./cp1617t_media/sorteio.jpg>]
-\openout5 = `cp1617t.ptb'.
-
-\openout5 = `cp1617t.ptb'.
-
-
 (./cp1617t.bbl) [9]
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <20.74> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 928.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 916.
 \openout5 = `cp1617t.ptb'.
 
 \openout5 = `cp1617t.ptb'.
@@ -973,71 +964,279 @@ LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <20.74> not available
 \openout5 = `cp1617t.ptb'.
 
 
-Overfull \hbox (1.64172pt too wide) in paragraph at lines 1132--1136
+Overfull \hbox (1.64172pt too wide) in paragraph at lines 1120--1122
 \OT1/ppl/m/n/10 Os alu-nos de-vem co-lo-car neste anexo as suas solu[][]oes aos
  exerc[]^^Pcios pro-pos-tos, de acordo com o ``layout''
  []
 
 \openout5 = `cp1617t.ptb'.
 
-\openout5 = `cp1617t.ptb'.
-
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1136 \end{hscode}
+                   \resethooks
+? 
+! Extra }, or forgotten $.
+\mbox #1->\leavevmode \hbox {#1}
+                                
+l.1136 \end{hscode}
+                   \resethooks
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.1136 \end{hscode}
+                   \resethooks
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1136 \end{hscode}
+                   \resethooks
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1136 \end{hscode}
+                   \resethooks
+? 
+! Extra }, or forgotten $.
+\mbox #1->\leavevmode \hbox {#1}
+                                
+l.1136 \end{hscode}
+                   \resethooks
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.1136 \end{hscode}
+                   \resethooks
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1136 \end{hscode}
+                   \resethooks
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1136 \end{hscode}
+                   \resethooks
+? 
+! Extra }, or forgotten $.
+\mbox #1->\leavevmode \hbox {#1}
+                                
+l.1136 \end{hscode}
+                   \resethooks
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.1136 \end{hscode}
+                   \resethooks
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1136 \end{hscode}
+                   \resethooks
+? 
 [11]
+Runaway argument?
+\ignorespaces \SaveRestoreHook \column {B}{@{}>{\hspre }l<{\hspost }@\ETC.
+! Paragraph ended before \PT@scantoend was complete.
+<to be read again> 
+                   \par 
+l.1162 
+       
+? 
+! Extra }, or forgotten \endgroup.
+l.1172  \commentend}
+                    {}\<[E]%
+? 
+! Undefined control sequence.
+l.1172  \commentend}{}\<
+                        [E]%
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1174 \>
+         [B]{}\Varid{wrapper}\mathrel{=}\p2{}\<[E]%
+? 
+! Undefined control sequence.
+l.1174 \>[B]{}\Varid{wrapper}\mathrel{=}\p2{}\<
+                                               [E]%
+? 
+! Undefined control sequence.
+l.1176 ...1.5mu]\to (\Conid{Bool},\Conid{Int}){}\<
+                                                  [E]%
+? 
+! Undefined control sequence.
+l.1178 ...ue},\mathrm{0})}}{\Varid{wordAccum}}{}\<
+                                                  [E]%
+? 
+! Undefined control sequence.
+l.1180 ...Int}))\to (\Conid{Bool},\Conid{Int}){}\<
+                                                  [E]%
+? 
+! Undefined control sequence.
+l.1182 ...}\;(\Varid{a},(\Varid{b},\Varid{n})){}\<
+                                                  [E]%
+? 
+! Undefined control sequence.
+l.1184 \>[B]{}\hsindent{5}{}\<
+                              [5]%
+? 
+! Undefined control sequence.
+l.1185 ...d{sep}\;\Varid{a},\succ \;\Varid{n}){}\<
+                                                  [E]%
+? 
+! Undefined control sequence.
+l.1187 \>[B]{}\hsindent{5}{}\<
+                              [5]%
+? 
+! Undefined control sequence.
+l.1188 ...=}(\Varid{sep}\;\Varid{a},\Varid{n}){}\<
+                                                  [E]%
+? 
+! Undefined control sequence.
+l.1190 \>[B]{}\hsindent{5}{}\<
+                              [5]%
+? 
+! Undefined control sequence.
+l.1191 ... \char34 \char92 t\char92 n~\char34}{}\<
+                                                  [E]%
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1193 \end{hscode}
+                   \resethooks
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.1193 \end{hscode}
+                   \resethooks
+? 
+! Extra }, or forgotten \endgroup.
+\hsnewpar ...rindent =0pt\par \vskip #1\noindent }
+                                                  
+l.1193 \end{hscode}
+                   \resethooks
+? 
+Runaway argument?
+\ignorespaces \SaveRestoreHook \column {B}{@{}>{\hspre }l<{\hspost }@\ETC.
+! Paragraph ended before \PT@scantoend was complete.
+<to be read again> 
+                   \par 
+l.1290 
+       
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1291 lsplitB_
+               tree :: [a] -> Either () ([a], [(a, [a])])
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1295 
+       
+? 
+
+Overfull \hbox (63.38333pt too wide) in paragraph at lines 1291--1295
+ []\OT1/ppl/m/n/10 lsplitB$[]\OML/cmm/m/it/10 ree \OT1/cmr/m/n/10 :: [\OML/cmm/
+m/it/10 a\OT1/cmr/m/n/10 ]\OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 > Either\OT1/cm
+r/m/n/10 ()([\OML/cmm/m/it/10 a\OT1/cmr/m/n/10 ]\OML/cmm/m/it/10 ; \OT1/cmr/m/n
+/10 [(\OML/cmm/m/it/10 a; \OT1/cmr/m/n/10 [\OML/cmm/m/it/10 a\OT1/cmr/m/n/10 ])
+])\OML/cmm/m/it/10 lsplitB[]ree\OT1/cmr/m/n/10 [] = \OML/cmm/m/it/10 i\OT1/cmr/
+m/n/10 1()\OML/cmm/m/it/10 lsplitB[]ree\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 x\OT1/
+cmr/m/n/10 ] = \OML/cmm/m/it/10 i\OT1/cmr/m/n/10 2([]\OML/cmm/m/it/10 ; \OT1/cm
+r/m/n/10 (\OML/cmm/m/it/10 x; \OT1/cmr/m/n/10 []))\OML/cmm/m/it/10 lsplitB[]ree
+\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x \OT1/cmr/m/n/10 :
+ []
+
+! Extra }, or forgotten \endgroup.
+l.1303  \commentend}
+                    {}\<[E]%
+? 
+! Undefined control sequence.
+l.1303  \commentend}{}\<
+                        [E]%
+? 
 \openout5 = `cp1617t.ptb'.
 
 \openout5 = `cp1617t.ptb'.
 
 \openout5 = `cp1617t.ptb'.
 
-\openout5 = `cp1617t.ptb'.
-
- (./cp1617t.ind [12] [13
+[12] (./cp1617t.ind [13] [14
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1258.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1258.
- (./cp1617t.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1258.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1258.
+
+! LaTeX Error: \begin{hscode} on input line 1200 ended by \end{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1435 \end{document}
+                     
+? 
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1435.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1435.
+(./cp1617t.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1435.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1435.
 
 Package rerunfilecheck Info: File `cp1617t.out' has not changed.
 (rerunfilecheck)             Checksum: 5DC94B7046BAC0227E6F46C9CCE6DE02;364.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1258.
- ) 
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1435.
+ )
+(\end occurred inside a group at level 2)
+
+### semi simple group (level 2) entered at line 1200 (\begingroup)
+### semi simple group (level 1) entered at line 1153 (\begingroup)
+### bottom level 
 Here is how much of TeX's memory you used:
- 10701 strings out of 493014
- 146763 string characters out of 6133352
+ 10718 strings out of 493014
+ 146999 string characters out of 6133352
  300439 words of memory out of 5000000
- 13927 multiletter control sequences out of 15000+600000
+ 13943 multiletter control sequences out of 15000+600000
  40241 words of font info for 123 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 32i,10n,43p,3284b,495s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/te
-xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texl
-ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texliv
-e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/
-2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/20
-16/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2016/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2016/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2016/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/texlive/2016/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2016/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2016/texmf-dist/fon
-ts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
-/urw/palatino/uplb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/pa
-latino/uplr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/palatino/
-uplr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/palatino/uplri8a
-.pfb>
-Output written on cp1617t.pdf (13 pages, 407778 bytes).
+ 32i,10n,43p,3280b,495s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc
+}</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
+/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
+usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
+r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/
+local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
+cal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local
+/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/te
+xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texl
+ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texliv
+e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive
+/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/texlive/2
+016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/201
+6/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2016/
+texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2016/texmf-di
+st/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2016/texmf-dist/font
+s/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
+/urw/palatino/uplr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/pa
+latino/uplri8a.pfb>
+Output written on cp1617t.pdf (14 pages, 414310 bytes).
 PDF statistics:
- 341 PDF objects out of 1000 (max. 8388607)
- 299 compressed objects within 3 object streams
- 59 named destinations out of 1000 (max. 500000)
+ 346 PDF objects out of 1000 (max. 8388607)
+ 302 compressed objects within 4 object streams
+ 60 named destinations out of 1000 (max. 500000)
  69 words of extra memory for PDF output out of 10000 (max. 10000000)
 
