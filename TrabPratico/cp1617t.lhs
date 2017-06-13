@@ -769,6 +769,22 @@ wordAccum (a, (b, n))
     where sep c = c `elem` "\t\n "
 \end{code}
 
+\begin{eqnarray*}
+\start
+        wc\_w\_final = wrapper . worker
+%
+\just={ justificação ..... }
+%
+        |alpha.(split (p.f) f)|
+%
+\just={ justificação ..... }
+%
+        |alpha.(id >< f).(split (p.f) id)|
+%
+      ---- etc -----
+%
+\end{eqnarray*}
+
 \subsection*{Problema 3}
 
 Para gerar o gráfico basta correr este comando: 
