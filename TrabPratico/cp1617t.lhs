@@ -58,6 +58,7 @@
 %format LTree = "\mathsf{LTree}"
 %format (lcbr (x)(y)) = "\begin{lcbr}" x "\\" y "\end{lcbr}"
 %format (longcond (c)(t)(e)) = "\begin{array}{ll}\multicolumn{2}{l}{" c -> "}\\& " t ",\\& " e "\end{array}"
+%format cond p f g = "\mcond{" p "}{" f "}{" g "}"
 %-------------- interface with pdbc.lhs ------------------------------------
 \def\monadification{4.10}
 %---------------------------------------------------------------------------
@@ -779,56 +780,88 @@ prop_worker_first str@(c:_) = sep c == (fst (worker str))
 \end{code}
 
 
-Do enunciado vem que:
-
+Segundo o enunciado pode-se deduzir que:
 \begin{eqnarray*}
 \start
-|lcbr (wc_w.nil = const 0) (wc_w.cons = cond p (succ.wc_w.p2) (wc_w.p2)|
+|lcbr (wc_w.nil = const 0) (wc_w.cons = cond x (succ.wc_w.p2) (wc_w.p2)|
 \end{eqnarray*}
-
 
 , em que:
 
-
 \begin{eqnarray*}
 \start
-        wc\_w\_final = wrapper . worker
-%
-\just={ justificação ..... }
-%
-        |alpha.(split (p.f) f)|
-%
-\just={ justificação ..... }
-%
-        |alpha.(id >< f).(split (p.f) id)|
-%
-      ---- etc -----
-%
+        | x = uncurry(&&).(split(not.sep.p1)(look.p2)) |
+\just={ Absorção-X (11)}
+        | x = uncurry(&&).(not.sep >< look).(split(p1)(p2)) |
+\just={ Reflexão-X (8)}
+        | x = uncurry(&&).(not.sep >< look)|
 \end{eqnarray*}
+
+
+Então temos que:
+\begin{eqnarray*}
+\start
+\just={ Eq- + (27)}
+        |wc_w.in = either (const 0) ( cond (uncurry(&&).(not.sep >< look))  (succ.wc_w.p2) (wc_w.p2) ) |
+\just={ |look = p1.(split(look)(wc_w))| e |wc_w = p2.(split(look)(wc_w))| }
+        |wc_w.in = either (const 0) (longcond (uncurry(&&).(not.sep >< p1.(split(look)(wc_w)))) (succ.p2.(split(look)(wc_w).p2)) (p2.(split(look)(wc_w).p2)) ) |
+\just={ Functor- X (14), Natural |p2| (13)}
+        |wc_w.in = either (const 0) (longcond (uncurry(&&).(not.sep >< p1).(id >< (split(look)(wc_w)))) (succ.p2.p2.(id >< split(look)(wc_w))) (p2.p2.(id >< split(look)(wc_w)) ) |
+\just={ 2ª Lei de Fusão do Condicional (32)}
+        |wc_w.in = either (const 0) ((cond     (uncurry(&&).(not.sep >< p1)) (succ.p2.p2) (p2.p2) ).(id >< split(look)(wc_w)) ) |
+\just={ Absorção- + (22)}
+        |wc_w.in = either (const 0) (cond     (uncurry(&&).(not.sep >< p1)) (succ.p2.p2) (p2.p2) ).(id + (id >< split(look)(wc_w)) ) |
+\end{eqnarray*}
+
+
 
 Vamos agora trabalhar a expressão de modo a que seja possivel utilizá-la na lei Fokkinga
 
 \begin{eqnarray*}
 \start
-        |lcbr (lookahead.nil = True) (lookahead.cons = sep.p1|
+        |lcbr (look.nil = True) (look.cons = sep c|
+\just={ Eq-+ (27), fusão-+(20), Natural-|p1|(12) }
+        |look.in = either (True) (sep.p1) |
 \just={ Eq- + (27)}
-        |lookahead.in = either (True) (sep.p1) |
+        |look.in = either (True) (sep.p1) |
 \just={ Natural-|p1| (12)}
-        |lookahead.in = either (True) (p1.(sep >< lookahead)) |
-\just={ Absorção- + (22)}
-        |lookahead.in = (either (True) (p1)).(id + (sep >< lookahead)) |
-\just={ |lookahead = p1.(split(lookahead)(wc_w))|}
-        |lookahead.in = (either (True) (p1)).(id + (sep >< p1.(split(lookahead)(wc_w)))) |
-\just={ Functor-x (14)}
-        |lookahead.in = (either (True) (p1)).(id + (sep >< p1).(id >< (split(lookahead)(wc_w)))) |
+        |look.in = either (True) (p1.(sep >< look)) |
+\just={ Natural\_id (1) Absorção- + (22)}
+        |look.in = (either (True) (p1)).(id + (sep >< look)) |
+\just={ |look = p1.(split(look)(wc_w))|}
+        |look.in = (either (True) (p1)).(id + (sep >< p1.(split(look)(wc_w)))) |
+\just={ Natural\_id (1), Functor-x (14)}
+        |look.in = (either (True) (p1)).(id + (sep >< p1).(id >< (split(look)(wc_w)))) |
 \just={ Functor-+ (25)}
-        |lookahead.in = (either (True) (p1)).(id + (sep >< p1)).(id + (id >< (split(lookahead)(wc_w)))) |
+        |look.in = (either (True) (p1)).(id + (sep >< p1)).(id + (id >< (split(look)(wc_w)))) |
 \just={ Absorção-+ (22)}
-        |lookahead.in = (either (True) (p1.(sep >< p1)) ).(id + (id >< (split(lookahead)(wc_w)))) |
+        |look.in = (either (True) (p1.(sep >< p1)) ).(id + (id >< (split(look)(wc_w)))) |
 \just={ Natural-|p1| (12) }
-        |lookahead.in = (either (True) (sep.p1)).(id + (id >< p1.(split(lookahead)(wc_w)))) |
+        |look.in = (either (True) (sep.p1)).(id + (id >< p1.(split(look)(wc_w)))) |
 \end{eqnarray*}
 
+
+
+
+Podemos concluir que wordAccum poderá ser representada da seguinte maneira: 
+\begin{eqnarray*}
+wordAccum = |(split (sep.p1) (cond ((uncurry(&&)).((not.sep)><p1)) (succ.p2.p2) (p2.p2)))|
+\end{eqnarray*}
+
+
+
+Portanto:
+\begin{eqnarray*}
+\start
+        |lcbr (look.in = (either (True) (sep.p1)).(id + (id >< split(look)(wc_w) ))) (wc_w.in = (either (const 0) ( (uncurry(&&).(not.sep >< p1)) ) -> succ.p2.p2, p2.p2).(id + (id >< split(look)(wc_w)) ))|
+\just={ Fokkinga (50)}
+        |split(look)(wc_w) = cataList( split (either (True) (sep.p1))  ( either (const 0) (uncurry(&&).(not.sep >< p1) -> succ.p2.p2, p2.p2) )|
+\just={ Lei da Troca (28)}
+        |split(look)(wc_w) = cataList(either( split (True)(const 0) ) ( split (sep.p1) (uncurry(&&).(not.sep >< p1) -> succ.p2.p2, p2.p2) ) ) |
+\just={Def-split(78), def de wordAccum}
+        |split(look)(wc_w) = cataList (either (const (True, 0)) wordAccum)|
+\just={trivial}
+\end{eqnarray*}
 
 
 
